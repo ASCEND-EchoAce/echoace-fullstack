@@ -2,6 +2,7 @@
 
 import { createClient } from '@/utils/supabase/client';
 import { useEffect, useState } from 'react';
+import SurveyForm from '@/components/SurveyForm';
 
 export default function Page() {
   const [notes, setNotes] = useState<any[] | null>(null);
@@ -17,16 +18,21 @@ export default function Page() {
 
   return (
     <div>
-      <h1>My Notes</h1>
-      <p>Welcome to my notes page! Here are all the notes I've created:</p>
+      <h1 style={{ fontSize: '3rem', textAlign: 'center', color: '#fff', marginBottom: '20px' }}>
+        Opening Survey
+      </h1>
+      <p></p>
 
-      {/* Displaying the notes from the Supabase database
-      <pre>{JSON.stringify(notes, null, 2)}</pre> */}
+      {/* Displaying the notes from the Supabase database 
+        <pre>{JSON.stringify(notes, null, 2)}</pre>
+        */}
+      {/* Render Survey Component */}
+      <SurveyForm />
 
       {/* Add any other content here */}
-      <p>Feel free to explore and add your own notes!</p>
+      <p></p>
       <footer>
-        <p>Powered by Next.js and Supabase.</p>
+        <p></p>
       </footer>
     </div>
   );
