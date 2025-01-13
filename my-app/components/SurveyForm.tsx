@@ -2,7 +2,7 @@ import 'survey-core/defaultV2.min.css';
 import { Model } from 'survey-core';
 import { Survey } from 'survey-react-ui';
 import { SharpDark } from 'survey-core/themes';
-import { surveyJSON } from './survey_json'; // Import the survey JSON from the file
+import { surveyJSON } from './improved_survey_json'; // Import the survey JSON from the file
 
 const json = {
   elements: [
