@@ -8,7 +8,7 @@ import { ThemeProvider } from 'next-themes';
 import Link from 'next/link';
 import './globals.css';
 import Image from 'next/image';
-import logo from '@/app/invert icon.png'; // Import the image
+import logo from '@/app/invert icon.png';
 import Navbar from '@/components/navbar';
 
 const defaultUrl = process.env.VERCEL_URL

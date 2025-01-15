@@ -10,11 +10,9 @@ export default function CenteredDropdownPage() {
     router.push('/survey'); // Navigate to the page1 video
   };
   const handleNavigateToPage2 = () => {
-    router.push('/survey'); // Navigate to the page2 video
+    router.push('/survey'); //change for added links from other devs.
   };
-  const handleNavigateToPage3 = () => {
-    router.push('/survey'); // Navigate to the page3 video
-  };
+  //change for added links from other devs.
   const handleNavigateToSurvey = () => {
     router.push('/survey'); // Navigate to the survey route
   };
@@ -34,13 +32,10 @@ export default function CenteredDropdownPage() {
           </DropdownMenu.DropdownMenuTrigger>
 
           <DropdownMenu.DropdownMenuContent className="p-2 mt-2 rounded-md shadow-lg bg-black w-48">
-            {/* Option 1 triggers navigation */}
             <DropdownMenu.DropdownMenuItem onClick={handleNavigateToPage2}>
               My best skill is...
             </DropdownMenu.DropdownMenuItem>
-            {/* Thicker separator */}
             <DropdownMenu.DropdownMenuSeparator className="border-t-2 border-white" />
-            {/* Placeholder for more options */}
             <DropdownMenu.DropdownMenuItem>
               Tell me about a time where you showed leadership...
             </DropdownMenu.DropdownMenuItem>
