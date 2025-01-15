@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 import SurveyForm from '@/components/SurveyForm';
 
 export default function Page() {
-  const [notes, setNotes] = useState<any[] | null>(null);
-  const supabase = createClient();
+  // const [notes, setNotes] = useState<any[] | null>(null);
+  // const supabase = createClient();
 
   //   useEffect(() => {
   //     const getData = async () => {
