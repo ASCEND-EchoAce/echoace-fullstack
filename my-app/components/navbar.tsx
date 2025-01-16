@@ -11,7 +11,7 @@ const Navbar = () => {
       <div className="max-w-screen-xl mx-auto flex justify-between items-center">
         {/* Middle: Navigation Links */}
         <div className="hidden sm:flex space-x-6">
-          <Link href="/" className="hover:text-gray-300">
+          <Link href="/landing" className="hover:text-gray-300">
             Home
           </Link>
           <Link href="/about" className="hover:text-gray-300">
