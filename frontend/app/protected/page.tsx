@@ -32,7 +32,7 @@ export default async function ProtectedPage() {
       <div>
         <h2 className="font-bold text-2xl mb-4">Next steps</h2>
         <p>Record audio and get a transcription:</p>
-        <AudioRecorder /> {/* Add the AudioRecorder component here */}
+        <AudioRecorder /> {}
       </div>
       
     </div>
