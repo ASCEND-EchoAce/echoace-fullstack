@@ -32,3 +32,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# python module cache
+backend/src/python/Inferencing/__pycache__/
