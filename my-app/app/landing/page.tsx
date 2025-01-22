@@ -21,7 +21,7 @@ export default function CenteredDropdownPage() {
     <div className="overflow-hidden flex items-center justify-center text-white">
       <div className="text-center">
         {/* Heading */}
-        <h1 className="text-4xl mb-4">Choose a prompt</h1>
+        <h1 className="text-4xl mb-4">Choose a prompt.</h1>
 
         {/* Dropdown menu */}
         <DropdownMenu.DropdownMenu>
