@@ -7,14 +7,14 @@ export default function CenteredDropdownPage() {
 
   // Handle navigation to page2 when Option 1 is selected
   const handleNavigateToPage1 = () => {
-    router.push('/survey'); // Navigate to the page1 video
+    router.push('/dashboard'); // Navigate to the page1 video
   };
   const handleNavigateToPage2 = () => {
-    router.push('/survey'); //change for added links from other devs.
+    router.push('/dashboard'); //change for added links from other devs.
   };
   //change for added links from other devs.
   const handleNavigateToSurvey = () => {
-    router.push('/survey'); // Navigate to the survey route
+    router.push('/dashboard'); // Navigate to the survey route
   };
 
   return (
