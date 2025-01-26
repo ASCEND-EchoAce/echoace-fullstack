@@ -29,7 +29,8 @@ export const signUpAction = async (formData: FormData) => {
   } else {
     return encodedRedirect(
       'success',
-      '/sign-up',
+      '/userform',
+      // "/sign-up",
       'Thanks for signing up! Please check your email for a verification link.'
     );
   }
@@ -115,4 +116,75 @@ export const signOutAction = async () => {
   const supabase = await createClient();
   await supabase.auth.signOut();
   return redirect('/sign-in');
+};
+
+export const formAction = async () => {
+  const supabase = await createClient();
+  const { data: user, error } = await supabase.auth.getUser();
+
+  if (!user) {
+    return redirect('/sign-in');
+  }
+
+  return redirect('/userform');
+};
+
+export const startInterviewAction = async () => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+    error
+  } = await supabase.auth.getUser();
+
+  if (error) {
+    return redirect('/sign-in');
+  }
+
+  if (!user) {
+    return redirect('/sign-in');
+  }
+
+  return redirect('/dashboard/during-interview');
+};
+
+export const endInterviewAction = async () => {
+  console.log('Action started: Fetching client...');
+  const supabase = await createClient();
+
+  console.log('Fetching user...');
+  const {
+    data: { user },
+    error
+  } = await supabase.auth.getUser();
+
+  if (error) {
+    console.error('Error fetching user:', error);
+    return redirect('/sign-in');
+  }
+
+  if (!user) {
+    console.warn('No user found. Redirecting to sign-in...');
+    return redirect('/sign-in');
+  }
+
+  console.log('User authenticated. Redirecting to during-interview...');
+  return redirect('/dashboard/post-interview');
+};
+
+export const moreDetailAction = async () => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+    error
+  } = await supabase.auth.getUser();
+
+  if (error) {
+    return redirect('/sign-in');
+  }
+
+  if (!user) {
+    return redirect('/sign-in');
+  }
+
+  return redirect('/history');
 };
