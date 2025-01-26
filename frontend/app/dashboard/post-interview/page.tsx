@@ -1,18 +1,17 @@
-import { createClient } from "@/utils/supabase/server";
-import { InfoIcon } from "lucide-react";
-import { redirect } from "next/navigation";
-import { moreDetailAction } from "@/app/actions";
-
+import { createClient } from '@/utils/supabase/server';
+import { InfoIcon } from 'lucide-react';
+import { redirect } from 'next/navigation';
+import { moreDetailAction } from '@/app/actions';
 
 export default async function ProtectedPage() {
   const supabase = await createClient();
 
   const {
-    data: { user },
+    data: { user }
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return redirect("/sign-in");
+    return redirect('/sign-in');
   }
 
   return (
@@ -25,17 +24,18 @@ export default async function ProtectedPage() {
           </div>
           <div className="text-sm px-5 rounded-md text-foreground flex gap-3 items-center">
             <p className="test-smp-3 px-5 rounded-md text-foreground flex gap-3 items-center">
-              Great Job! Click here to read our feedback</p> 
+              Great Job! Click here to read our feedback
+            </p>
           </div>
         </div>
       </div>
       <div className="flex-1 mt-2 mb-4 ml-10">
         <form action={moreDetailAction}>
           <button type="submit" className="bg-black text-white py-1 px-1 rounded">
-              More Details
+            More Details
           </button>
         </form>
-      </div> 
-    </div> 
+      </div>
+    </div>
   );
 }
