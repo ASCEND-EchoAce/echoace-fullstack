@@ -13,5 +13,10 @@
   "devDependencies": {
     "eslint": "^8.48.0",
     "prettier": "^3.4.2"
+  },
+  "dependencies": {
+    "next": "^15.1.6",
+    "survey-core": "^1.12.20",
+    "survey-react-ui": "^1.12.20"
   }
 }
