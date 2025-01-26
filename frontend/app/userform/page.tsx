@@ -24,17 +24,8 @@ export default function Page() {
       </h1>
       <p></p>
 
-      {/* Displaying the notes from the Supabase database 
-        <pre>{JSON.stringify(notes, null, 2)}</pre>
-        */}
-      {/* Render Survey Component */}
       <SurveyForm />
 
-      {/* Add any other content here */}
-      <p></p>
-      <footer>
-        <p></p>
-      </footer>
     </div>
   );
 }
