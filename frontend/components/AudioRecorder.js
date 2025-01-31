@@ -29,10 +29,10 @@ export default function AudioRecorder() {
           });
 
           const jsonResponse = await response.json(); // Backend sends JSON
-          const rawText = jsonResponse.transcription;
+          const rawText = jsonResponse?.transcription || ""; // Ensure it's a string
+          const formattedText = rawText ? rawText.replace(/\n/g, "<br>") : "No transcription received.";
+          setTranscription(formattedText);
 
-          // Replace '\n' with actual line breaks for rendering
-          const formattedText = rawText.replace(/\n/g, "<br>");
           setTranscription(formattedText); // Store the formatted HTML string
         } catch (error) {
           console.error("Error fetching transcription:", error);

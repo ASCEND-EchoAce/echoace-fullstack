@@ -3,6 +3,7 @@ import cors from 'cors';
 import multer from 'multer';
 import { PythonShell } from 'python-shell';
 import fs from 'fs';
+import path from "path";
 
 const app: Express = express();
 const port = 8080;
@@ -30,11 +31,14 @@ app.post('/process-audio', upload.single('audio'), (req: Request, res: Response)
   console.log(`Received file: ${audioPath}`);
 
   const options = {
-    pythonPath: '/Users/brandonvazquez/anaconda3/bin/python', // Adjust the Python path
+    pythonPath: 'python', // Adjust the Python path
     args: [audioPath],
   };
 
-  const shell = new PythonShell('/Users/brandonvazquez/Desktop/ASCEND/echoace-fullstack/backend/src/python/transcribe.py', options);
+  const scriptPath = path.join(__dirname, "python", "transcribe.py");
+
+  const shell = new PythonShell(scriptPath, options);   
+  // const shell = new PythonShell('python/transcribe.py', options);
 
   // Collect output messages from the Python script
   const messages: string[] = [];
