@@ -1,13 +1,12 @@
 import { createClient } from '@/utils/supabase/server';
 import { InfoIcon } from 'lucide-react';
 import { redirect } from 'next/navigation';
-import AudioRecorder from '/Users/brandonvazquez/Desktop/ASCEND/echoace-fullstack/frontend/components/AudioRecorder.js'; // Import the AudioRecorder component
 
 export default async function ProtectedPage() {
   const supabase = await createClient();
 
   const {
-    data: { user },
+    data: { user }
   } = await supabase.auth.getUser();
 
   if (!user) {
@@ -28,13 +27,9 @@ export default async function ProtectedPage() {
           {JSON.stringify(user, null, 2)}
         </pre>
       </div>
-
       <div>
         <h2 className="font-bold text-2xl mb-4">Next steps</h2>
-        <p>Record audio and get a transcription:</p>
-        <AudioRecorder /> {}
       </div>
-      
     </div>
   );
 }
