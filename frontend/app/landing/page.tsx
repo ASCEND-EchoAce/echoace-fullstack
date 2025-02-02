@@ -7,44 +7,40 @@ export default function CenteredDropdownPage() {
 
   // Handle navigation to page2 when Option 1 is selected
   const handleNavigateToPage1 = () => {
-    router.push('/dashboard/during-interview'); // Navigate to the page1 video
+    router.push('/dashboard/interview'); // Navigate to the page1 video
   };
   const handleNavigateToPage2 = () => {
-    router.push('/dashboard/during-interview'); //change for added links from other devs.
+    router.push('/dashboard/interview'); //change for added links from other devs.
   };
   //change for added links from other devs.
   const handleNavigateToSurvey = () => {
-    router.push('/dashboard/during-interview'); // Navigate to the survey route
+    router.push('/dashboard/interview'); // Navigate to the survey route
   };
 
   return (
     <div className="overflow-hidden flex items-center justify-center text-white">
       <div className="text-center">
         {/* Heading */}
-        <h1 className="text-4xl mb-4">Choose a prompt.</h1>
+        <h1 className="text-black dark:text-white text-4xl mb-4">Choose a prompt.</h1>
 
         {/* Dropdown menu */}
         <DropdownMenu.DropdownMenu>
           <DropdownMenu.DropdownMenuTrigger asChild>
-            <button className="px-4 py-2 text-sm font-medium text-white rounded-md bg-slate-600 hover:bg-blue-700 focus:outline-none">
+            <button className="text-black dark:text-white px-4 py-2 text-sm font-medium text-white rounded-md bg-slate-600 hover:bg-blue-700 focus:outline-none">
               Select a prompt to answer.
             </button>
           </DropdownMenu.DropdownMenuTrigger>
 
-          <DropdownMenu.DropdownMenuContent className="p-2 mt-2 rounded-md shadow-lg bg-black w-48">
+          <DropdownMenu.DropdownMenuContent className="text-black dark:text-white rounded=md shadow-lg p-2 mt-2">
             <DropdownMenu.DropdownMenuItem onClick={handleNavigateToPage2}>
               My best skill is...
             </DropdownMenu.DropdownMenuItem>
             <DropdownMenu.DropdownMenuSeparator className="border-t-2 border-white" />
-            <DropdownMenu.DropdownMenuItem>
+            <DropdownMenu.DropdownMenuItem onClick={handleNavigateToSurvey}>
               Tell me about a time where you showed leadership...
             </DropdownMenu.DropdownMenuItem>
             <DropdownMenu.DropdownMenuSeparator className="border-t-2 border-white" />
-            <DropdownMenu.DropdownMenuItem>One of my hobbies is...</DropdownMenu.DropdownMenuItem>
-            <DropdownMenu.DropdownMenuSeparator className="border-t-2 border-white" />
-            <DropdownMenu.DropdownMenuItem onClick={handleNavigateToSurvey}>
-              About you survey
-            </DropdownMenu.DropdownMenuItem>
+            <DropdownMenu.DropdownMenuItem onClick={handleNavigateToSurvey}>One of my hobbies is...</DropdownMenu.DropdownMenuItem>
           </DropdownMenu.DropdownMenuContent>
         </DropdownMenu.DropdownMenu>
       </div>
