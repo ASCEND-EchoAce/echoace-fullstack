@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 const AudioRecorder: React.FC<{ question: string }> = ({ question }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | undefined>();
-  const [audioURL, setAudioURL] = useState<string>('');
+  const [transcription, setTranscription] = useState('');
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -45,10 +45,15 @@ const AudioRecorder: React.FC<{ question: string }> = ({ question }) => {
 
       recorder.onstop = async () => {
         const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-        const formData = new FormData();
+        const formData: FormData = new FormData();
         formData.append('audio', audioBlob);
 
-        // make http request
+        fetch('http://localhost:8080/process-audio', {
+          method: 'POST',
+          body: formData
+        })
+          .then((val) => val.json())
+          .then((data) => setTranscription(data.transcription));
       };
 
       recorder.start();
@@ -81,6 +86,7 @@ const AudioRecorder: React.FC<{ question: string }> = ({ question }) => {
       <Button onClick={isRecording ? handleStopRecording : handleStartRecording}>
         {isRecording ? 'Stop' : 'Start'}
       </Button>
+      <p>{transcription}</p>
     </div>
   );
 };
