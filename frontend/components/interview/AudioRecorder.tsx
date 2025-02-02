@@ -1,9 +1,9 @@
 'use client';
 
-import { Button } from '../../../components/ui/button';
+import { Button } from '../ui/button';
 import { useEffect, useRef, useState } from 'react';
 
-export default function Interview() {
+const AudioRecorder: React.FC<{ question: string }> = ({ question }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | undefined>();
   const [audioURL, setAudioURL] = useState<string>('');
@@ -69,6 +69,7 @@ export default function Interview() {
 
   return (
     <div className="h-full flex flex-col gap-4 justify-center items-center">
+      <h1 className="text-3xl">{question}</h1>
       <video
         ref={videoRef}
         autoPlay
@@ -82,4 +83,6 @@ export default function Interview() {
       </Button>
     </div>
   );
-}
+};
+
+export default AudioRecorder;
