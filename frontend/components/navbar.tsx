@@ -35,6 +35,9 @@ const Navbar = () => {
           <Link href="/userform" className="text-black dark:text-white hover:text-gray-300">
             Survey
           </Link>
+          <Link href="/interview" className="hover:text-gray-300">
+            Interview
+          </Link>
         </div>
 
         {/* Right side: Dropdown or Profile (optional) */}

@@ -144,7 +144,7 @@ export const startInterviewAction = async () => {
     return redirect('/sign-in');
   }
 
-  return redirect('/dashboard/during-interview');
+  return redirect('/dashboard/interview');
 };
 
 export const endInterviewAction = async () => {
