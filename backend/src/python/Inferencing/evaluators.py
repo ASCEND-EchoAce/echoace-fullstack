@@ -42,14 +42,18 @@ class BasicEvaluator:
             """
 
         messages = [
-            {"role": "system", "content": sys_content},
-            {"role": "user", "content": user_content},
+            {
+                "role": "system",
+                "content": self.sys_content,
+            },
+            {
+                "role": "user",
+                "content": self.user_content
+            }
         ]
 
-        # Use the pipeline to generate a response
-        prompt = tokenizer.apply_chat_template(
-            messages, tokenize=False, add_generation_prompt=True
-        )
-
-        outputs = self.pipe(prompt, max_new_tokens=256, pad_token_id=tokenizer.eos_token_id)
-        return self.get_feedback(outputs[0]["generated_text"])
+        self.prompt = self.pipe.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+        
+    def evaluate(self):
+        outputs = self.pipe(self.prompt, max_new_tokens=256)
+        return outputs[0]["generated_text"]
