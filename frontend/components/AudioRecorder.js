@@ -23,7 +23,7 @@ export default function AudioRecorder() {
         formData.append("audio", audioBlob);
 
         try {
-          const response = await fetch("http://localhost:3000/process-audio", {
+          const response = await fetch("http://localhost:8080/process-audio", {
             method: "POST",
             body: formData,
           });

@@ -26,16 +26,16 @@ const Navbar = () => {
       <div className="max-w-screen-xl mx-auto flex justify-between items-center">
         {/* Middle: Navigation Links */}
         <div className="hidden sm:flex space-x-6">
-          <Link href="/landing" className="text-black dark:text-white hover:text-gray-300">
+          <Link href="/landing" className="text-black dark:text-white hover:text-blue-500 dark:hover:text-blue-500">
             Home
           </Link>
-          <Link href="/about" className="text-black dark:text-white hover:text-gray-300">
+          <Link href="/about" className="text-black dark:text-white hover:text-blue-500 dark:hover:text-blue-500">
             About
           </Link>
-          <Link href="/userform" className="text-black dark:text-white hover:text-gray-300">
+          <Link href="/userform" className="text-black dark:text-white hover:text-blue-500 dark:hover:text-blue-500">
             Survey
           </Link>
-          <Link href="/interview" className="hover:text-gray-300">
+          <Link href="/interview" className="text-black dark:text-white hover:text-blue-500 dark:hover:text-blue-500">
             Interview
           </Link>
         </div>
@@ -44,7 +44,7 @@ const Navbar = () => {
         <div className="text-black dark:text-white sm:flex hidden items-center space-x-4">
           <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
-              <button className="text-black dark:text-white px-5 py-2 text-sm">Options</button>
+              <button className="text-black dark:text-white hover:text-blue-500 dark:hover:text-blue-500 px-5 py-2 text-sm">Options</button>
             </DropdownMenu.Trigger>
             <DropdownMenu.Content className="text-black dark:text-white rounded-md shadow-lg p-2 mt-2">
               <DropdownMenu.Item className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer">My Profile</DropdownMenu.Item>
