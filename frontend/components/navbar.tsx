@@ -7,20 +7,6 @@ import { useState, useEffect } from "react";
 const Navbar = () => {
   const router = useRouter();
 
-  const [theme, setTheme] = useState(() =>
-    typeof window !== "undefined" ? localStorage.getItem("theme") || "light" : "light"
-  );
-
-  useEffect(() => {
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [theme]);
-
   return (
     <nav className="text-white p-4">
       <div className="max-w-screen-xl mx-auto flex justify-between items-center">
