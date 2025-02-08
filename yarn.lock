@@ -271,13 +271,13 @@
 
 "@next/env@15.1.6":
   version "15.1.6"
-  resolved "https://registry.yarnpkg.com/@next/env/-/env-15.1.6.tgz#2fa863d8c568a56b1c8328a86e621b8bdd4f2a20"
+  resolved "https://registry.npmjs.org/@next/env/-/env-15.1.6.tgz"
   integrity sha512-d9AFQVPEYNr+aqokIiPLNK/MTyt3DWa/dpKveiAaVccUadFbhFEvY6FXYX2LJO2Hv7PHnLBu2oWwB4uBuHjr/w==
 
-"@next/swc-darwin-arm64@15.1.4":
-  version "15.1.4"
-  resolved "https://registry.npmjs.org/@next/swc-darwin-arm64/-/swc-darwin-arm64-15.1.4.tgz"
-  integrity sha512-wBEMBs+np+R5ozN1F8Y8d/Dycns2COhRnkxRc+rvnbXke5uZBHkUGFgWxfTXn5rx7OLijuUhyfB+gC/ap58dDw==
+"@next/swc-darwin-arm64@15.1.6":
+  version "15.1.6"
+  resolved "https://registry.npmjs.org/@next/swc-darwin-arm64/-/swc-darwin-arm64-15.1.6.tgz"
+  integrity sha512-u7lg4Mpl9qWpKgy6NzEkz/w0/keEHtOybmIl0ykgItBxEM5mYotS5PmqTpo+Rhg8FiOiWgwr8USxmKQkqLBCrw==
 
 "@next/swc-darwin-arm64@15.1.6":
   version "15.1.6"
@@ -826,6 +826,11 @@
     "@types/prop-types" "*"
     csstype "^3.0.2"
 
+"@types/recorder-js@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.npmjs.org/@types/recorder-js/-/recorder-js-1.0.4.tgz"
+  integrity sha512-TTVmVxBvDLq2DUxZbuDiBdOH419G+b1dn9IOfXLsGfzafUXO2aAfEHBsLyAvPDRhVlCQ9dL9CT+na3icDSmbLg==
+
 "@types/send@*":
   version "0.17.4"
   resolved "https://registry.npmjs.org/@types/send/-/send-0.17.4.tgz"
@@ -975,6 +980,19 @@ axios@^0.21.1:
   integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
   dependencies:
     follow-redirects "^1.14.0"
+
+"backend@file:/Users/brandonvazquez/Desktop/ASCEND/echoace-fullstack/backend":
+  version "0.1.0"
+  resolved "file:backend"
+  dependencies:
+    "@supabase/supabase-js" "^2.47.15"
+    axios "^0.21.1"
+    cors "^2.8.5"
+    express "^4.17.1"
+    multer "^1.4.5-lts.1"
+    python-shell "^5.0.0"
+    ts-node "^10.9.2"
+    typescript "^4.9.5"
 
 balanced-match@^1.0.0:
   version "1.0.2"
@@ -1637,6 +1655,28 @@ fresh@0.5.2:
   resolved "https://registry.npmjs.org/fresh/-/fresh-0.5.2.tgz"
   integrity sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==
 
+"frontend@file:/Users/brandonvazquez/Desktop/ASCEND/echoace-fullstack/frontend":
+  version "0.1.0"
+  resolved "file:frontend"
+  dependencies:
+    "@radix-ui/react-checkbox" "^1.1.1"
+    "@radix-ui/react-dropdown-menu" "^2.1.1"
+    "@radix-ui/react-label" "^2.1.0"
+    "@radix-ui/react-slot" "^1.1.0"
+    "@supabase/ssr" latest
+    "@supabase/supabase-js" latest
+    autoprefixer "10.4.20"
+    class-variance-authority "^0.7.0"
+    clsx "^2.1.1"
+    geist "^1.2.1"
+    lucide-react "^0.456.0"
+    next latest
+    next-themes "^0.4.3"
+    react "18.3.1"
+    react-dom "18.3.1"
+    survey-core "^1.12.20"
+    survey-react-ui "^1.12.20"
+
 fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
@@ -1821,6 +1861,11 @@ inherits@2, inherits@2.0.4, inherits@^2.0.3, inherits@~2.0.3:
   version "2.0.4"
   resolved "https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
+
+inline-worker@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/inline-worker/-/inline-worker-1.1.0.tgz"
+  integrity sha512-2nlxBGg5Uoop6IRco9wMzlAz62690ylokrUDg3IaCi9bJaq0HykbWlRtRXgvSKiBNmCBGXnOCFBkIFjaSGJocA==
 
 ipaddr.js@1.9.1:
   version "1.9.1"
@@ -2126,9 +2171,9 @@ next-themes@^0.4.3:
   resolved "https://registry.npmjs.org/next-themes/-/next-themes-0.4.4.tgz"
   integrity sha512-LDQ2qIOJF0VnuVrrMSMLrWGjRMkq+0mpgl6e0juCLqdJ+oo8Q84JRWT6Wh11VDQKkMMe+dVzDKLWs5n87T+PkQ==
 
-next@^15.1.6:
+next@^15.1.6, next@>=13.2.0, next@latest:
   version "15.1.6"
-  resolved "https://registry.yarnpkg.com/next/-/next-15.1.6.tgz#ce22fd0a8f36da1fc4aba86e3ec7e98eb248c555"
+  resolved "https://registry.npmjs.org/next/-/next-15.1.6.tgz"
   integrity sha512-Hch4wzbaX0vKQtalpXvUiw5sYivBy4cm5rzUKrBnUB/y436LGrvOUqYvlSeNVCWFO/770gDlltR9gqZH62ct4Q==
   dependencies:
     "@next/env" "15.1.6"
@@ -2147,29 +2192,6 @@ next@^15.1.6:
     "@next/swc-linux-x64-musl" "15.1.6"
     "@next/swc-win32-arm64-msvc" "15.1.6"
     "@next/swc-win32-x64-msvc" "15.1.6"
-    sharp "^0.33.5"
-
-next@latest:
-  version "15.1.4"
-  resolved "https://registry.npmjs.org/next/-/next-15.1.4.tgz"
-  integrity sha512-mTaq9dwaSuwwOrcu3ebjDYObekkxRnXpuVL21zotM8qE2W0HBOdVIdg2Li9QjMEZrj73LN96LcWcz62V19FjAg==
-  dependencies:
-    "@next/env" "15.1.4"
-    "@swc/counter" "0.1.3"
-    "@swc/helpers" "0.5.15"
-    busboy "1.6.0"
-    caniuse-lite "^1.0.30001579"
-    postcss "8.4.31"
-    styled-jsx "5.1.6"
-  optionalDependencies:
-    "@next/swc-darwin-arm64" "15.1.4"
-    "@next/swc-darwin-x64" "15.1.4"
-    "@next/swc-linux-arm64-gnu" "15.1.4"
-    "@next/swc-linux-arm64-musl" "15.1.4"
-    "@next/swc-linux-x64-gnu" "15.1.4"
-    "@next/swc-linux-x64-musl" "15.1.4"
-    "@next/swc-win32-arm64-msvc" "15.1.4"
-    "@next/swc-win32-x64-msvc" "15.1.4"
     sharp "^0.33.5"
 
 node-releases@^2.0.19:
@@ -2455,7 +2477,7 @@ raw-body@2.5.2:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-react-dom@18.3.1:
+"react-dom@^16.5.0 || ^17.0.1 || ^18.2.0 || ^19.0.0", react-dom@18.3.1:
   version "18.3.1"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-18.3.1.tgz"
   integrity sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==
@@ -2490,7 +2512,7 @@ react-style-singleton@^2.2.1, react-style-singleton@^2.2.2:
     get-nonce "^1.0.0"
     tslib "^2.0.0"
 
-react@18.3.1:
+"react@^16.5.0 || ^17.0.1 || ^18.2.0 || ^19.0.0", "react@^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0-rc", "react@^16.8 || ^17 || ^18 || ^19 || ^19.0.0-rc", "react@^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc", "react@^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc", "react@^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0", react@^18.3.1, "react@>= 16.8.0 || 17.x.x || ^18.0.0-0 || ^19.0.0-0", react@>=16.8.0, react@18.3.1:
   version "18.3.1"
   resolved "https://registry.npmjs.org/react/-/react-18.3.1.tgz"
   integrity sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==
@@ -2523,6 +2545,13 @@ readdirp@~3.6.0:
   integrity sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==
   dependencies:
     picomatch "^2.2.1"
+
+recorder-js@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.npmjs.org/recorder-js/-/recorder-js-1.0.7.tgz"
+  integrity sha512-jSG4GP1FUV9vGxY9lrvaI2yGq1OwfIvK8MF8qPndODhkwGx+iPBTG7ZhWK8YHt/zT/c88MmFZCntv9G7x1Exxg==
+  dependencies:
+    inline-worker "^1.1.0"
 
 require-directory@^2.1.1:
   version "2.1.1"
@@ -2840,15 +2869,15 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-survey-core@^1.12.20:
-  version "1.12.20"
-  resolved "https://registry.yarnpkg.com/survey-core/-/survey-core-1.12.20.tgz#8320660db81dee154f24c42b6e8dca2b91cdb9a3"
-  integrity sha512-0r3LT0o1IUy+rQEYMYZleWTiN3eVRB8cMmc6FasD20/aIjPprl/HrigVVtgGyQyU6G8Nm3FI+V8sAENpqYcf2g==
+survey-core@^1.12.20, survey-core@1.12.22:
+  version "1.12.22"
+  resolved "https://registry.npmjs.org/survey-core/-/survey-core-1.12.22.tgz"
+  integrity sha512-vWmvJXEHSgP947wUjhF1xORgIJLBKagblPrPzKtieWu5kNv3OUfbZPCZIjMDKN5dYx/Z3mqwwwurCPT3CDr0Mw==
 
 survey-react-ui@^1.12.20:
-  version "1.12.20"
-  resolved "https://registry.yarnpkg.com/survey-react-ui/-/survey-react-ui-1.12.20.tgz#add1bfdeb8ab239a1faa306239d9ed452391403d"
-  integrity sha512-vGdgzLiD0VpCo4gKXjL4GbcihJ8DWCPvcivUns1hKgKYExiVo12GWmYadRra6jtlNFEl4GkHh3mIZym1c7Bmjw==
+  version "1.12.22"
+  resolved "https://registry.npmjs.org/survey-react-ui/-/survey-react-ui-1.12.22.tgz"
+  integrity sha512-Xhy7eRDqiTCintZeoG2A70xhG6yF0TB6bgxkIicvcJL8iftWUCjpJ3P5eyvgybYmTjNV4HKdCDuhOZfnSqy+1A==
 
 tailwind-merge@^2.5.2:
   version "2.6.0"
