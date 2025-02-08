@@ -66,13 +66,6 @@ export default function ProtectedPage() {
           <option value="What are your strengths?">What are your strengths?</option>
           <option value="Describe a challenge you faced">Describe a challenge you faced</option>
         </select>
-        <button 
-          className="mt-2 p-2 bg-blue-500 text-white rounded" 
-          onClick={handleSubmitQuestion} 
-          disabled={!selectedQuestion}
-        >
-          Submit Question
-        </button>
       </div>
       <div className="flex flex-col items-center gap-4">
         <label className="flex items-center gap-2">
