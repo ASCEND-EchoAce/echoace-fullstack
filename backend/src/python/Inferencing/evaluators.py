@@ -44,7 +44,6 @@ class BasicEvaluator:
 
         outputs = self.pipe(prompt, max_new_tokens=256)  # Limit token generation to avoid long computation
         evaluation = self.get_feedback(outputs[0]["generated_text"])
-        print(evaluation)
         return evaluation
 
 
