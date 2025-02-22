@@ -24,7 +24,7 @@ export default function Page() {
    }
   return (
     <div>
-      <h1 style={{ fontSize: '3rem', textAlign: 'center', color: '#fff', marginBottom: '20px' }}>
+      <h1 style={titleStyle}>
         Opening Survey
       </h1>
       <p></p>
