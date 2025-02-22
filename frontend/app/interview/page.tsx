@@ -7,7 +7,7 @@ import { useState } from 'react';
 const options = ['Tell me about yourself', 'Why LinkedIn?', 'Tell me about a time...'];
 
 export default function InterviewPage() {
-  const [interviewStatus, setInterviewStatus] = useState<'pre' | 'during' | 'post'>('pre');
+  const [interviewStatus, setInterviewStatus] = useState<'pre' | 'during'>('pre');
   const [question, setQuestion] = useState('');
 
   if (interviewStatus === 'during') {

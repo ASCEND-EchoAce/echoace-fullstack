@@ -2,12 +2,17 @@
 
 import { Button } from '../ui/button';
 import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+
 
 const AudioRecorder: React.FC<{ question: string }> = ({ question }) => {
+  const router = useRouter();
   const [isRecording, setIsRecording] = useState(false);
+  const [hasRecorded, setHasRecorded] = useState(false);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | undefined>();
   const [audioURL, setAudioURL] = useState<string>('');
   const videoRef = useRef<HTMLVideoElement>(null);
+
 
   useEffect(() => {
     const startVideo = async () => {
@@ -64,7 +69,12 @@ const AudioRecorder: React.FC<{ question: string }> = ({ question }) => {
     if (mediaRecorder) {
       mediaRecorder.stop();
       setIsRecording(false);
+      setHasRecorded(true);
     }
+  };
+
+  const handleViewFeedback = () => {
+    router.push('/interview/post-interview');
   };
 
   return (
@@ -78,9 +88,15 @@ const AudioRecorder: React.FC<{ question: string }> = ({ question }) => {
         height="480"
         style={{ border: '1px solid black' }}
       />
-      <Button onClick={isRecording ? handleStopRecording : handleStartRecording}>
-        {isRecording ? 'Stop' : 'Start'}
-      </Button>
+      {hasRecorded ? (
+        <Button onClick={handleViewFeedback}>
+          View Feedback
+        </Button>
+      ) : (
+        <Button onClick={isRecording ? handleStopRecording : handleStartRecording}>
+          {isRecording ? 'Stop' : 'Start'}
+        </Button>
+      )}
     </div>
   );
 };
