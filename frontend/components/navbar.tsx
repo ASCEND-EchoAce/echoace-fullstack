@@ -12,7 +12,7 @@ const Navbar = () => {
       <div className="max-w-screen-xl mx-auto flex justify-between items-center">
         {/* Middle: Navigation Links */}
         <div className="hidden sm:flex space-x-6">
-          <Link href="/landing" className="text-black dark:text-white hover:text-blue-500 dark:hover:text-blue-500">
+          <Link href="/" className="text-black dark:text-white hover:text-blue-500 dark:hover:text-blue-500">
             Home
           </Link>
           <Link href="/about" className="text-black dark:text-white hover:text-blue-500 dark:hover:text-blue-500">
