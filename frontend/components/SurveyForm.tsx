@@ -6,7 +6,6 @@ import { useState,useEffect } from 'react';
 import { surveyJSON } from '@/components/survey_json'; // Import the survey JSON from the file
 import { useTheme } from 'next-themes';
 
-
 export default function SurveyForm() {
   const {theme,setTheme} = useTheme();
   const [isDarkMode,setIsDarkMode] = useState(false);
