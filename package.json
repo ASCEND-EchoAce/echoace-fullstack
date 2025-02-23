@@ -11,11 +11,14 @@
     "format": "prettier -w ./"
   },
   "devDependencies": {
+    "@types/recorder-js": "^1.0.4",
     "eslint": "^8.48.0",
     "prettier": "^3.4.2"
   },
   "dependencies": {
+    "concurrently": "^9.1.2",
     "next": "^15.1.6",
+    "recorder-js": "^1.0.7",
     "survey-core": "^1.12.20",
     "survey-react-ui": "^1.12.20"
   }

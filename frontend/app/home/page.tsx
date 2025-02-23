@@ -27,7 +27,7 @@ export default function HomePage() {
                         <button className="bg-black hover:bg-gray-400 font-bold text-white py-3 px-14 rounded-3xl mt-24 max-w-4xl mx-auto">Learn about our AI interviewer</button>
                     </div>
                     <div className="bg-white border border-2 border-black rounded-3xl p-6 flex-1 flex flex-col">
-                        <h1 className="font-bold text-center mt-3">Build a Better Resume</h1>
+                        <h2 className="font-bold text-center mt-3">Build a Better Resume</h2>
                         <p className="mt-6">Our model builds upon your resume. Editing it's content based on industry you wish to go in.</p>
                         <button className="bg-black hover:bg-gray-400 font-bold text-white py-3 px-14 rounded-3xl mt-24 max-w-4xl mx-auto">See the resume builder at work</button>
                     </div>
