@@ -3,8 +3,6 @@
 
 import SurveyForm from '@/components/SurveyForm';
 import { useTheme } from 'next-themes';
-
-
 export default function Page() {
   // const [notes, setNotes] = useState<any[] | null>(null);
   // const supabase = createClient();
@@ -20,7 +18,8 @@ export default function Page() {
 
   const{theme} = useTheme();
 
-  let titleStyle: React.CSSProperties;
+
+  let titleStyle;
   if (theme === 'dark') titleStyle = { fontSize: '3rem', textAlign: 'center', color: '#fff', marginBottom: '20px' };
    else {
     titleStyle = { fontSize: '3rem',textAlign: 'center', color: '#000', marginBottom: '20px' }

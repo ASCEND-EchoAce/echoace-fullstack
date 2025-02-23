@@ -40,7 +40,7 @@ export default function RootLayout({
               <nav className="fixed bg-white w-full flex justify-center border-b border-b-foreground/10 h-20">
                 <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
                   <div className="flex gap-5 items-center font-semibold">
-                    <Link href={'/landing'}>
+                    <Link href={'/'}>
                       {/* Correctly reference the logo */}
                       <Image
                         src="/invert%20icon.png" // Use the correct URL path
