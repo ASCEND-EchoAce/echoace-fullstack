@@ -1,5 +1,6 @@
 'use client';
 
+
 import SurveyForm from '@/components/SurveyForm';
 import { useTheme } from 'next-themes';
 export default function Page() {
@@ -16,6 +17,7 @@ export default function Page() {
   // If we want to actually use sql and tables (backend?)
 
   const{theme} = useTheme();
+
 
   let titleStyle;
   if (theme === 'dark') titleStyle = { fontSize: '3rem', textAlign: 'center', color: '#fff', marginBottom: '20px' };

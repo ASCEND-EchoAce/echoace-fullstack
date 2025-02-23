@@ -4,15 +4,6 @@ import { redirect } from 'next/navigation';
 import { moreDetailAction } from '@/app/actions';
 
 export default async function ProtectedPage() {
-  const supabase = await createClient();
-
-  const {
-    data: { user }
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return redirect('/sign-in');
-  }
 
   return (
     <div className="flex-1 justify-center border-2 w-100 h-40 rounded mt-40 mb-40">
