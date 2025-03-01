@@ -14,17 +14,15 @@
     "start": "concurrently --prefix \"[{name}]\" \"yarn workspace frontend start\" \"yarn workspace backend start\""
   },
   "devDependencies": {
-
+    "@types/multer": "^1.4.12",
     "concurrently": "^9.1.2",
     "eslint": "^8.48.0",
     "prettier": "^3.4.2"
   },
   "dependencies": {
-
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.47.15",
-    "@types/multer": "^1.4.12",
-
+    "multer": "^1.4.5-lts.1",
     "next": "^15.1.6",
     "recorder-js": "^1.0.7",
     "survey-core": "^1.12.20",

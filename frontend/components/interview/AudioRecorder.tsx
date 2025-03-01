@@ -127,7 +127,7 @@ export default function AudioRecorder({ selectedQuestion }: { selectedQuestion: 
 
       try {
         // Ensure server is configured to accept multipart/form-data
-        const response = await fetch("http://localhost:8080/process-audio", {
+        const response = await fetch("http://localhost:3000/process-audio", {
           method: "POST",
           body: formData,
           headers: {
