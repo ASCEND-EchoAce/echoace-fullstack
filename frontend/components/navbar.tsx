@@ -12,13 +12,13 @@ const Navbar = () => {
       <div className="max-w-screen-xl mx-auto flex items-center gap-8">
         {/* Middle: Navigation Links */}
           
-        <Link href="/home" className="text-black dark:text-white hover:text-blue-500 dark:hover:text-blue-500">
+        <Link href="/home" className="text-black dark:text-white hover:text-blue-500 dark:hover:text-blue-500 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110">
           Home
         </Link>
-        <Link href="/userform" className="text-black dark:text-white hover:text-blue-500 dark:hover:text-blue-500">
+        <Link href="/userform" className="text-black dark:text-white hover:text-blue-500 dark:hover:text-blue-500 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110">
           Survey
         </Link>
-        <Link href="/interview" className="text-black dark:text-white hover:text-blue-500 dark:hover:text-blue-500">
+        <Link href="/interview" className="text-black dark:text-white hover:text-blue-500 dark:hover:text-blue-500 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110">
           Interview
         </Link>
 
@@ -27,7 +27,7 @@ const Navbar = () => {
         <div className="text-black dark:text-white sm:flex hidden items-center space-x-8">
           <DropdownMenu.Root >
             <DropdownMenu.Trigger asChild>
-            <div className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+            <div className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110">
               <svg className="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
             </div>
             </DropdownMenu.Trigger>

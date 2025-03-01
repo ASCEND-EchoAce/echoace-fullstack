@@ -12,7 +12,7 @@ export default function HomePage() {
             <h2 className="text-4xl mt-16 font-mono">
                 <Typewriter text=" Use AI to better your chances!" speed={100}/> 
                 </h2>
-            <div className="flex flex-row gap-8 mt-28">
+            <div className="flex flex-row gap-20 mt-28">
                 <button className="hover:bg-gray-300 border border-2 border-blue-500 font-bold text-blue-500 py-2 px-14 rounded-lg shadow-lg shadow-blue-500/50">
                 <Link href='../interview'>Interview</Link></button>
                 <button className="bg-black hover:bg-gray-400 font-bold text-white py-3 px-14 rounded-lg shadow-lg shadow-black-500/50">Resume</button>
