@@ -38,20 +38,20 @@ export default function RootLayout({
           <main className="min-h-screen flex flex-col items-center">
             <div className="flex-1 w-full flex flex-col gap-20 items-center">
               <nav className="fixed bg-white w-full flex justify-center border-b border-b-foreground/10 h-20">
-                <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
+                <div className="w-full max-w-7xl flex justify-between items-center p-3 px-5 text-md gap-5">
                   <div className="flex gap-5 items-center font-semibold">
-                    <Link href={'/'}>
+                    <Link href={'/home'}>
                       {/* Correctly reference the logo */}
                       <Image
                         src="/invert%20icon.png" // Use the correct URL path
                         alt="EchoAce Logo"
-                        height={32}
-                        width={32}
+                        height={64}
+                        width={64}
                       />
                     </Link>
                     <div className="flex items-center gap-2">{/* <DeployButton /> */}</div>
-                    <Navbar />
                   </div>
+                  <div className='font-bold'><Navbar /></div>
                 </div>
               </nav>
               {/* <div className="flex flex-col gap-20 max-w-5xl p-5">{children}</div> */}

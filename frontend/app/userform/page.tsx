@@ -19,7 +19,7 @@ export default function Page() {
   const{theme} = useTheme();
 
 
-  let titleStyle;
+  let titleStyle: React.CSSProperties;
   if (theme === 'dark') titleStyle = { fontSize: '3rem', textAlign: 'center', color: '#fff', marginBottom: '20px' };
    else {
     titleStyle = { fontSize: '3rem',textAlign: 'center', color: '#000', marginBottom: '20px' }
