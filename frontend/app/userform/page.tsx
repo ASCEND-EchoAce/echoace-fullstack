@@ -25,11 +25,11 @@ export default function Page() {
     titleStyle = { fontSize: '3rem',textAlign: 'center', color: '#000', marginBottom: '20px' }
    }
   return (
-    <div>
-      <h1 style={titleStyle}>
+    <div className='px-20'>
+      {/* <h1 style={titleStyle} className='font-bold'>
         Opening Survey
       </h1>
-      <p></p>
+      <p></p> */}
 
       <SurveyForm />
 

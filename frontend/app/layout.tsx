@@ -5,6 +5,11 @@ import Link from 'next/link';
 import './globals.css';
 import Image from 'next/image';
 import Navbar from '@/components/navbar';
+import Page from './userform/page';
+import { Home } from 'lucide-react';
+
+// import { useLocation } from 'react-router-dom';
+
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -21,11 +26,19 @@ const geistSans = Geist({
   subsets: ['latin']
 });
 
-export default function RootLayout({
-  children
-}: Readonly<{
+const routes = [
+  { path: '/home', component: Home, meta: { hideNavbar: true } },
+  // other routes...
+];
+
+type RootLayoutProps = {
   children: React.ReactNode;
-}>) {
+  routeMeta?: any; // you can replace `any` with a more specific type if needed
+};
+
+export default async function RootLayout({ children, routeMeta }: RootLayoutProps) {
+  
+
   return (
     <html lang="en" className={geistSans.className} suppressHydrationWarning>
       <body className="bg-background text-foreground">
@@ -51,7 +64,10 @@ export default function RootLayout({
                     </Link>
                     <div className="flex items-center gap-2">{/* <DeployButton /> */}</div>
                   </div>
-                  <div className='font-bold'><Navbar /></div>
+                  <div className='font-bold'>
+                  {!routeMeta?.hideNavbar && <Navbar />}
+                
+                    </div>
                 </div>
               </nav>
               {/* <div className="flex flex-col gap-20 max-w-5xl p-5">{children}</div> */}

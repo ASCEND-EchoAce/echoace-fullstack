@@ -92,13 +92,21 @@
 
 
 import { useState } from "react";
-import Recorder from 'recorder-js';
+import Recorder from "recorder-js";
 
-export default function AudioRecorder({ selectedQuestion }: { selectedQuestion: string }) {
+export default function AudioRecorder({
+  selectedQuestion,
+  onStop, // new prop from parent
+}: {
+  selectedQuestion: string;
+  onStop: () => void;
+}) {
   const [isRecording, setIsRecording] = useState(false);
   const [transcription, setTranscription] = useState("");
   const [evaluation, setEvaluation] = useState("");
   const [recorder, setRecorder] = useState<Recorder | null>(null);
+  const [isPending, setIsPending] = useState(false);
+  const [pendingText, setPendingText] = useState("");
 
   const handleStartRecording = async () => {
     try {
@@ -116,22 +124,25 @@ export default function AudioRecorder({ selectedQuestion }: { selectedQuestion: 
 
   const handleStopRecording = async () => {
     if (recorder) {
+      // Immediately show pending text for stopping
+      setIsPending(true);
+      setPendingText("Stopping recording...");
+
+      // Stop the recorder and update state
       const { blob } = await recorder.stop();
       setIsRecording(false);
 
-      const audioBlob = new Blob([blob], { type: 'audio/wav' });
-
+      const audioBlob = new Blob([blob], { type: "audio/wav" });
       const formData = new FormData();
-      formData.append("audio", audioBlob, "recording.wav"); // Set filename to .wav
+      formData.append("audio", audioBlob, "recording.wav");
       formData.append("question", selectedQuestion);
 
       try {
-        // Ensure server is configured to accept multipart/form-data
         const response = await fetch("http://localhost:8080/process-audio", {
           method: "POST",
           body: formData,
           headers: {
-            // No need to set Content-Type explicitly for FormData, browser handles this
+            // Browser handles Content-Type for FormData
           },
         });
 
@@ -144,9 +155,22 @@ export default function AudioRecorder({ selectedQuestion }: { selectedQuestion: 
 
         setTranscription(jsonResponse.transcription);
         setEvaluation(jsonResponse.evaluation);
+
+        // Update pending text to indicate redirection
+        // After a delay, notify parent that recording is finished
+        setTimeout(() => {
+          setIsPending(false);
+          setPendingText("");
+          onStop(); // call the parent's callback to change interviewStatus
+        }, 10);
       } catch (error) {
         console.error("❌ Error fetching server response:", error);
         setTranscription("Error: Could not process audio.");
+        setTimeout(() => {
+          setIsPending(false);
+          setPendingText("");
+          onStop(); // call the parent's callback to change interviewStatus
+        }, 10);
       }
     }
   };
@@ -155,9 +179,15 @@ export default function AudioRecorder({ selectedQuestion }: { selectedQuestion: 
     <div className="flex flex-col items-center gap-4">
       <button
         onClick={isRecording ? handleStopRecording : handleStartRecording}
-        className={`py-2 px-4 rounded ${isRecording ? "bg-red-600" : "bg-green-600"} text-white`}
+        className={`py-2 px-4 rounded ${
+          isRecording ? "bg-red-600" : "bg-black"
+        } text-white`}
       >
-        {isRecording ? "Stop Recording" : "Start Recording"}
+        {isPending
+          ? pendingText
+          : isRecording
+          ? "Stop Recording"
+          : "Start Recording"}
       </button>
       {transcription && (
         <div className="mt-4 p-4 bg-gray-200 rounded text-black">
