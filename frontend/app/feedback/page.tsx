@@ -35,7 +35,7 @@ const Chat = () => {
       setInput('');
       
       // Immediately add user's message and loading indicator
-      setMessages(prev => [...prev, `You: ${userMessage}`, 'Steve: ...']);
+      setMessages(prev => [...prev, `You: ${userMessage}`, 'Milbert: ...']);
       setIsLoading(true);
 
       try {
@@ -59,7 +59,7 @@ const Chat = () => {
         // Replace the loading indicator with the actual response
         setMessages(prev => {
           const newMessages = [...prev];
-          newMessages[newMessages.length - 1] = `Steve: ${llmReply}`;
+          newMessages[newMessages.length - 1] = `Milbert: ${llmReply}`;
           return newMessages;
         });
       } catch (error) {
