@@ -60,15 +60,3 @@ if __name__ == "__main__":
     # Output the evaluation result (it will be captured by the server)
     print(evaluation)
 
-
-    
-# if __name__ == "__main__":
-#     evaluator = BasicEvaluator()
-
-#     question = "How do you manage conflicts in a team?"
-#     response = "Hola mi nombre is Brandon. Yo nomas le digo a mis copaneros que los odio"
-
-#     print("Evaluating the response...")
-
-#     evaluation = evaluator.evaluate(question, response)
-#     print("Evaluation Result:", evaluation)

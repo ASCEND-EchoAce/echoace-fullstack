@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
     const originalName = file.originalname;
     const fileName = originalName.replace(/\.[^/.]+$/, ""); // Remove any extension
     cb(null, `${fileName}.wav`); // Add .wav extension to the file
-  }
+  },
 });
 
 const upload = multer({ storage });
@@ -40,7 +40,7 @@ app.post("/process-audio", upload.single("audio"), (req: Request, res: Response)
     return res.status(400).json({ error: "No audio file uploaded." });
   }
 
-  const audioPath = req.file.path;  // The new file name with .wav extension
+  const audioPath = req.file.path; // The new file name with .wav extension
   const selectedQuestion = req.body.question;
 
   if (!selectedQuestion) {
@@ -83,7 +83,6 @@ app.post("/process-audio", upload.single("audio"), (req: Request, res: Response)
     // ✅ Now send the transcription and question to evaluator.py
     const evaluatorScript = path.join(__dirname, "python", "Inferencing", "evaluators.py");
 
-
     const evalOptions = {
       pythonPath: "python",
       args: [selectedQuestion, transcription],
@@ -111,6 +110,61 @@ app.post("/process-audio", upload.single("audio"), (req: Request, res: Response)
     });
   });
 });
+
+// Route to handle messages
+app.post("/process-message", async (req: Request, res: Response) => {
+  const { message } = req.body;
+
+  if (!message) {
+    return res.status(400).json({ error: "No message received." });
+  }
+
+  console.log(`📥 Received message: ${message}`);
+
+  try {
+    // Send the message to conversation.py
+    const conversationScript = path.join(__dirname, "python", "conversation.py");
+    const options = {
+      pythonPath: "python",
+      args: [message], // Pass the message as an argument to conversation.py
+    };
+
+    const shell = new PythonShell(conversationScript, options);
+    const messages: string[] = [];
+
+    // Create a promise to handle the Python script execution
+    const pythonExecution = new Promise((resolve, reject) => {
+      shell.on("message", (message: string) => {
+        messages.push(message);
+      });
+
+      shell.end((err: Error | null) => {
+        if (err) {
+          console.error("❌ Error running conversation.py:", err);
+          reject(err);
+          return;
+        }
+
+        const llmReply = messages.join("\n").trim();
+        console.log("✅ LLM Reply from conversation.py:", llmReply);
+        resolve(llmReply);
+      });
+    });
+
+    // Wait for the Python script to finish and send the response
+    const result = await pythonExecution;
+    res.json({ reply: result });
+  } catch (error) {
+    console.error("❌ Error processing message:", error);
+    res.status(500).json({ error: "Failed to process message." });
+  }
+});
+
+// Function to call the LLM (replace with your actual LLM logic)
+const callLLM = async (message: string): Promise<string> => {
+  // Simulate an LLM response (replace this with your actual LLM API call)
+  return `"${message}"`;
+};
 
 // Start the server
 app.listen(port, () => {
