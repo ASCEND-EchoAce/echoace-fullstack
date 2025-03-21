@@ -6,7 +6,7 @@ import Image from 'next/image';
 export default async function Index() {
   return (
     <>
-      <section id="landing hero" className="flex flex-col justify-center items-center pt-24 gap-4">
+      <section id="landing hero" className="flex flex-col justify-center items-center pt-24 gap-8">
         <div className="text-center flex flex-col justify-center items-center gap-8">
           <h1 className="text-6xl max-w-6xl font-semibold">
             Tell me about a time you spoke confidently about your experiences.
@@ -33,7 +33,7 @@ export default async function Index() {
       </section>
       <div className="flex flex-col gap-36 mt-24 items-center">
         <LandingDisplay
-          title={'Your Resume. Your Stories.'}
+          title={'Your Resume.\nYour Stories.'}
           desc={
             "We'll let you know the best way to present yourself confidently. Lorem dolor sit amet."
           }
