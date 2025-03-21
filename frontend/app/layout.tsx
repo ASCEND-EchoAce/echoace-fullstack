@@ -2,6 +2,7 @@ import { Geist } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/navbar';
 import { createClient } from '@/utils/supabase/server';
+import { HeartIcon } from 'lucide-react';
 
 const geistSans = Geist({
   display: 'swap',
@@ -26,7 +27,9 @@ export default async function RootLayout({
           <div className="flex-1 w-full flex flex-col items-center text-black">
             <Navbar user={user} />
             <div className="flex flex-col gap-20 w-full">{children}</div>
-            <footer className="w-full flex items-center justify-center mx-auto text-center text-xs gap-8 py-16"></footer>
+            <footer className="w-full flex items-center justify-center mx-auto text-center text-xs gap-2 py-16">
+              Built with <HeartIcon /> by ASCEND.
+            </footer>
           </div>
         </main>
       </body>
