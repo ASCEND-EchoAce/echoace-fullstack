@@ -28,7 +28,7 @@ export default async function RootLayout({
             <Navbar user={user} />
             <div className="flex flex-col gap-20 w-full">{children}</div>
             <footer className="w-full flex items-center justify-center mx-auto text-center text-xs gap-2 py-16">
-              Built with <HeartIcon /> by ASCEND.
+              Built with <HeartIcon /> by ASCEND Product II.
             </footer>
           </div>
         </main>

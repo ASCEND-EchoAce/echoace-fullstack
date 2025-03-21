@@ -1,6 +1,6 @@
 import LandingDisplay from '@/components/landing-display';
 import { Button } from '@/components/ui/button';
-import { ArrowBigRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 
 export default async function Index() {
@@ -11,7 +11,7 @@ export default async function Index() {
           <h1 className="text-6xl max-w-6xl font-semibold">
             Tell me about a time you spoke confidently about your experiences.
           </h1>
-          <p className="text-lg max-w-4xl">
+          <p className="text-lg max-w-3xl">
             Ace your next behavioral interview using AI. Lorem ipsum dolor sit amet, consectetur
             adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
             enim ad minim veniam.
@@ -19,16 +19,16 @@ export default async function Index() {
         </div>
         <div className="flex gap-8">
           <Button variant={'secondary'} className="bg-highlight">
-            Start Interviewing <ArrowBigRight />
+            Start Interviewing <ArrowRight />
           </Button>
-          <Button>Request a Demo</Button>
+          <Button variant={'default'}>Request a Demo</Button>
         </div>
         <Image
           src={'/snapshot.png'}
           alt={'display of interview screen'}
           width={1080}
           height={640}
-          className="mt-12 shadow-xl rounded-2xl border-slate-100 border-[1px]"
+          className="mt-12 shadow-xl rounded-2xl border-slate-300 border-[1px]"
         />
       </section>
       <div className="flex flex-col gap-36 mt-24 items-center">
