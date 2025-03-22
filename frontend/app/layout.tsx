@@ -41,7 +41,7 @@ export default async function RootLayout({ children, routeMeta }: RootLayoutProp
 
   return (
     <html lang="en" className={geistSans.className} suppressHydrationWarning>
-      <body className="bg-background text-foreground">
+      <body className="bg-offwhite text-foreground">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -63,6 +63,10 @@ export default async function RootLayout({ children, routeMeta }: RootLayoutProp
                       />
                     </Link>
                     <div className="flex items-center gap-2">{/* <DeployButton /> */}</div>
+                    <div className='flex flex-row'><div className='text-black text-2xl mt-1'>
+                      EchoAce
+                    </div>
+                    </div>
                   </div>
                   <div className='font-bold'>
                   {!routeMeta?.hideNavbar && <Navbar />}

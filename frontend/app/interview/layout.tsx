@@ -1,19 +1,16 @@
-import '../globals.css';
-import { ThemeProvider } from 'next-themes';
-
-export default function NoNavbarLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="en">
-      <body>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {/* Notice there is no <Navbar /> here */}
-          <main>{children}</main>
-        </ThemeProvider>
-      </body>
-    </html>
-  );
-}
+export default function InterviewLayout({
+    children,
+  }: {
+    children: React.ReactNode;
+  }) {
+    return (
+        <main className="min-h-screen flex flex-col items-center">
+            <div className="flex-1 w-full flex flex-col gap-10 items-center">
+                <div className="flex flex-col gap-5 max-w-3xl p-3 w-2xl mx-auto">
+                    {children}
+                </div>
+            </div>
+        </main>
+    );
+  }
+  

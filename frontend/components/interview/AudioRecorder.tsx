@@ -166,6 +166,8 @@ export default function AudioRecorder({
       } catch (error) {
         console.error("❌ Error fetching server response:", error);
         setTranscription("Error: Could not process audio.");
+        // setIsPending(false);
+        // setPendingText("");
         setTimeout(() => {
           setIsPending(false);
           setPendingText("");

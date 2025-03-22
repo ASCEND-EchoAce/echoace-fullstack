@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss';
 
 const config = {
+
   darkMode: ['class'],
   content: [
     './pages/**/*.{ts,tsx}',
@@ -19,6 +20,7 @@ const config = {
     },
     extend: {
       colors: {
+        offwhite: '#F8F8F8',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
