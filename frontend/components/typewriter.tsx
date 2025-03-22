@@ -23,7 +23,7 @@ const Typewriter: React.FC<TypewriterProps> = ({ text, speed = 100 }) => {
     return () => clearInterval(timer);
   }, [text, speed]);
 
-  return <h1>{displayedText}</h1>;
+    return displayedText;
 };
 
 export default Typewriter;

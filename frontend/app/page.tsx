@@ -2,6 +2,7 @@ import LandingDisplay from '@/components/landing-display';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
+import Typewriter from '@/components/typewriter';
 
 export default async function Index() {
   return (
@@ -12,9 +13,9 @@ export default async function Index() {
             Tell me about a time you spoke confidently about your experiences.
           </h1>
           <p className="text-lg max-w-3xl">
-            Ace your next behavioral interview using AI. Lorem ipsum dolor sit amet, consectetur
+            <Typewriter text="Ace your next behavioral interview using AI. Lorem ipsum dolor sit amet, consectetur
             adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam.
+            enim ad minim veniam." speed={100} />
           </p>
         </div>
         <div className="flex gap-8">
