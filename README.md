@@ -11,3 +11,6 @@ Likely will also need to run 'yarn add -W concurrently' and 'pip install 'accele
 May need to run 'npm install express cors multer python-shell' to ensure you have the necessary imports
 
 ensure to create a hugging face account, and request permission for the specific model
+
+-pip install flask
+-cd backend && npm install axios

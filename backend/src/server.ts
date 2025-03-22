@@ -1,12 +1,40 @@
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
 import multer from "multer";
-import { PythonShell } from "python-shell";
 import fs from "fs";
 import path from "path";
+import axios from "axios";
+import { spawn } from "child_process";
 
 const app: Express = express();
 const port = 8080;
+const PYTHON_SERVER_URL = "http://127.0.0.1:5000";
+
+// Set up base paths
+const BASE_DIR = path.resolve(__dirname);
+
+// Start Python server
+const startPythonServer = () => {
+  const pythonServer = spawn('python', [path.join(BASE_DIR, 'python', 'model_server.py')]);
+
+  pythonServer.stdout.on('data', (data) => {
+    console.log(`Python server: ${data}`);
+  });
+
+  pythonServer.stderr.on('data', (data) => {
+    console.error(`Python server error: ${data}`);
+  });
+
+  // Handle server exit
+  pythonServer.on('close', (code) => {
+    if (code !== 0) {
+      console.error(`Python server exited with code ${code}`);
+    }
+  });
+};
+
+// Start the Python server when Node.js server starts
+startPythonServer();
 
 // Middleware
 app.use(cors());
@@ -15,7 +43,12 @@ app.use(express.json());
 // Multer setup for file uploads, renaming with .wav extension
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Save to uploads/ folder
+    const uploadsDir = path.join(BASE_DIR, "..", "uploads");
+    // Ensure uploads directory exists
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+    cb(null, uploadsDir);
   },
   filename: (req, file, cb) => {
     const originalName = file.originalname;
@@ -32,7 +65,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 // Audio Processing Route
-app.post("/process-audio", upload.single("audio"), (req: Request, res: Response) => {
+app.post("/process-audio", upload.single("audio"), async (req: Request, res: Response) => {
   console.log("📥 Received request at /process-audio");
 
   if (!req.file) {
@@ -40,7 +73,7 @@ app.post("/process-audio", upload.single("audio"), (req: Request, res: Response)
     return res.status(400).json({ error: "No audio file uploaded." });
   }
 
-  const audioPath = req.file.path; // The new file name with .wav extension
+  const audioPath = req.file.path;
   const selectedQuestion = req.body.question;
 
   if (!selectedQuestion) {
@@ -51,64 +84,36 @@ app.post("/process-audio", upload.single("audio"), (req: Request, res: Response)
   console.log(`✅ File received: ${req.file.originalname}, saved as ${audioPath}`);
   console.log(`✅ Received question: ${selectedQuestion}`);
 
-  // Path to your Python transcription script
-  const transcribeScript = path.join(__dirname, "python", "transcribe.py");
-
-  const options = {
-    pythonPath: "python",
-    args: [audioPath], // Pass the audio file path as argument to Python script
-  };
-
-  const shell = new PythonShell(transcribeScript, options);
-  const messages: string[] = [];
-
-  shell.on("message", (message: string) => {
-    messages.push(message);
-  });
-
-  shell.end((err: Error | null) => {
-    if (err) {
-      console.error("❌ Error running transcribe.py:", err);
-      return res.status(500).json({ error: "Failed to process audio." });
-    }
-
-    const transcription = messages.join("\n").trim();
-    console.log("✅ Final transcription:", transcription);
+  try {
+    // Get transcription
+    const transcribeResponse = await axios.post(`${PYTHON_SERVER_URL}/transcribe`, {
+      audio_path: audioPath
+    });
+    const transcription = transcribeResponse.data.transcription;
 
     if (!transcription || transcription.length < 5) {
       console.error("❌ Transcription is empty or too short.");
       return res.status(500).json({ error: "No transcription received." });
     }
 
-    // ✅ Now send the transcription and question to evaluator.py
-    const evaluatorScript = path.join(__dirname, "python", "Inferencing", "evaluators.py");
+    console.log("✅ Final transcription:", transcription);
 
-    const evalOptions = {
-      pythonPath: "python",
-      args: [selectedQuestion, transcription],
-    };
-
-    console.log("✅ Sending to evaluator.py: ", evalOptions.args);
-
-    const evalShell = new PythonShell(evaluatorScript, evalOptions);
-    const evalMessages: string[] = [];
-
-    evalShell.on("message", (message: string) => {
-      evalMessages.push(message);
+    // Get evaluation
+    const evaluateResponse = await axios.post(`${PYTHON_SERVER_URL}/evaluate`, {
+      question: selectedQuestion,
+      response: transcription
     });
 
-    evalShell.end((evalErr: Error | null) => {
-      if (evalErr) {
-        console.error("❌ Error running evaluator.py:", evalErr);
-        return res.status(500).json({ error: "Failed to evaluate response." });
-      }
-
-      const evaluationResult = evalMessages.join("\n").trim();
-      console.log(evaluationResult);
-
-      res.json({ transcription, evaluation: evaluationResult });
+    console.log("✅ Evaluation result:", evaluateResponse.data.evaluation);
+    res.json({
+      transcription,
+      evaluation: evaluateResponse.data.evaluation
     });
-  });
+
+  } catch (error) {
+    console.error("❌ Error processing request:", error);
+    res.status(500).json({ error: "Failed to process audio" });
+  }
 });
 
 // Route to handle messages
@@ -122,51 +127,20 @@ app.post("/process-message", async (req: Request, res: Response) => {
   console.log(`📥 Received message: ${message}`);
 
   try {
-    // Send the message to conversation.py
-    const conversationScript = path.join(__dirname, "python", "conversation.py");
-    const options = {
-      pythonPath: "python",
-      args: [message], // Pass the message as an argument to conversation.py
-    };
-
-    const shell = new PythonShell(conversationScript, options);
-    const messages: string[] = [];
-
-    // Create a promise to handle the Python script execution
-    const pythonExecution = new Promise((resolve, reject) => {
-      shell.on("message", (message: string) => {
-        messages.push(message);
-      });
-
-      shell.end((err: Error | null) => {
-        if (err) {
-          console.error("❌ Error running conversation.py:", err);
-          reject(err);
-          return;
-        }
-
-        const llmReply = messages.join("\n").trim();
-        console.log("✅ LLM Reply from conversation.py:", llmReply);
-        resolve(llmReply);
-      });
+    const response = await axios.post(`${PYTHON_SERVER_URL}/chat`, {
+      message
     });
 
-    // Wait for the Python script to finish and send the response
-    const result = await pythonExecution;
-    res.json({ reply: result });
+    console.log("✅ LLM Reply:", response.data.reply);
+    res.json({ reply: response.data.reply });
   } catch (error) {
     console.error("❌ Error processing message:", error);
-    res.status(500).json({ error: "Failed to process message." });
+    res.status(500).json({ error: "Failed to process message" });
   }
 });
 
-// Function to call the LLM (replace with your actual LLM logic)
-const callLLM = async (message: string): Promise<string> => {
-  // Simulate an LLM response (replace this with your actual LLM API call)
-  return `"${message}"`;
-};
-
 // Start the server
 app.listen(port, () => {
-  console.log(`Listening at port ${port}.`);
+  console.log(`Server started at port ${port}`);
+  console.log(`Base directory: ${BASE_DIR}`);
 });
