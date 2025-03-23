@@ -5,6 +5,13 @@ import Image from 'next/image';
 import Typewriter from '@/components/typewriter';
 
 export default async function Index() {
+  const typewriterPhrases = [
+    " ace your next behavioral interview using AI.",
+    " practice with real interview questions.",
+    " get personalized feedback on your responses.",
+    " build confidence for your next job interview."
+  ];
+
   return (
     <>
       <section id="landing hero" className="flex flex-col justify-center items-center pt-24 gap-8">
@@ -13,9 +20,7 @@ export default async function Index() {
             Tell me about a time you spoke confidently about your experiences.
           </h1>
           <p className="text-lg max-w-3xl">
-            <Typewriter text="Ace your next behavioral interview using AI. Lorem ipsum dolor sit amet, consectetur
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam." speed={100} />
+            <Typewriter prefix= "Use EchoAce to " phrases={typewriterPhrases} text="Use EchoAce to " speed={60} eraseSpeed={60} delayAfterPhrase={3000} delayBeforeErasing={2000}/>
           </p>
         </div>
         <div className="flex gap-8">
