@@ -24,9 +24,12 @@ export default async function Index() {
           </p>
         </div>
         <div className="flex gap-8">
-          <Button variant={'secondary'} className="bg-highlight">
-            Start Interviewing <ArrowRight />
-          </Button>
+          <a href="/interview">
+            <Button variant={'secondary'} className="bg-highlight">
+              Start Interviewing <ArrowRight />
+            </Button>
+          </a>
+          
           <Button variant={'default'}>Request a Demo</Button>
         </div>
         <Image
