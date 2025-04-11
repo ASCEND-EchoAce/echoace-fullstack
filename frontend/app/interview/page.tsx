@@ -4,6 +4,7 @@ import { Label } from "@radix-ui/react-dropdown-menu";
 import { InfoIcon } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import AudioRecorder from "@/components/interview/AudioRecorder";
+import { Button } from '@/components/ui/button';
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -41,70 +42,66 @@ export default function ProtectedPage() {
     }
   }, [cameraEnabled]);
 
-  // Redirect if interview status is post
   useEffect(() => {
     if (interviewStatus === "post") {
       router.push("/feedback");
     }
   }, [interviewStatus, router]);
 
-  // Conditionally set the content to render
   let content;
 
   if (interviewStatus === "during") {
     content = (
-      <div className="flex flex-col items-center gap-4 mt-20">
+      <div className="flex flex-col items-center gap-4 mt-16">
         <div className="flex flex-row gap-4"></div>
-        <h2 className="text-xl font-bold mb-4">{question}</h2>
-        <div className="w-[600px] h-[450px] bg-gray-300 flex items-center justify-center rounded overflow-hidden">
+        <h2 className="text-3xl font-bold mb-8">{question}</h2>
+        <div className="relative w-[700px] h-[550px] bg-gray-300 flex items-center justify-center rounded-lg overflow-hidden">
           {cameraEnabled ? (
-            <video ref={videoRef} autoPlay className="w-full h-full" />
+            <video ref={videoRef} autoPlay className="w-full h-full object-cover" />
           ) : (
             <span>Camera Off</span>
           )}
-        </div>
-        <div className="mt-4 mb-4 hover:bg-gray-400 py-3 px-3 rounded-2xl">
-          <label className="flex items-center gap-2">
-            {cameraEnabled ? (
-              <svg
-                onClick={() => setCameraEnabled(false)}
-                className="h-8 w-8"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <polygon points="23 7 16 12 23 17 23 7" />
-                <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
-              </svg>
-            ) : (
-              <svg
-                onClick={() => setCameraEnabled(true)}
-                className="h-8 w-8"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M16 16v1a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2m5.66 0H14a2 2 0 0 1 2 2v3.34l1 1L23 7v10" />
-                <line x1="1" y1="1" x2="23" y2="23" />
-              </svg>
-            )}
+          <label className="absolute bottom-0 flex items-center gap-2 mb-4 bg-white hover:bg-gray-200 py-3 px-3 rounded-full">
+          {cameraEnabled ? (
+            <svg
+              onClick={() => setCameraEnabled(false)}
+              className="h-6 w-6"  
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polygon points="23 7 16 12 23 17 23 7" />
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+            </svg>
+          ) : (
+            <svg
+              onClick={() => setCameraEnabled(true)}
+              className="h-6 w-6"  
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M16 16v1a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2m5.66 0H14a2 2 0 0 1 2 2v3.34l1 1L23 7v10" />
+              <line x1="1" y1="1" x2="23" y2="23" />
+            </svg>
+          )}
           </label>
+        </div> 
+        <div className="mt-2">
+          <AudioRecorder
+            selectedQuestion={question}
+            onStop={() => setInterviewStatus("post")}
+          />
         </div>
-        {/* Pass the onStop callback to AudioRecorder */}
-        <AudioRecorder
-          selectedQuestion={question}
-          onStop={() => setInterviewStatus("post")}
-        />
       </div>
     );
   } else {
-    // Render pre-interview view
     content = (
       <div className="flex-1 w-full flex flex-col gap-12 items-center mt-20">
         <div className="w-full text-center">
@@ -114,10 +111,10 @@ export default function ProtectedPage() {
           </div>
         </div>
         <div className="flex flex-col mt-4">
-          <Label>Starting Question</Label>
+          <Label className="text-xl">Interview Details</Label>
           <select
             name="current-status"
-            className="border rounded-md p-3 mt-3"
+            className="border border-black rounded-md py-2.5 px-10 mt-3"
             onChange={(e) => setQuestion(e.target.value)}
             required
           >
@@ -135,9 +132,10 @@ export default function ProtectedPage() {
               setInterviewStatus("during");
             }}
           >
-            <button type="submit" className="bg-black text-white py-2 px-4 rounded">
-              Start Interview
-            </button>
+            <Button type="submit" variant={'secondary'} className="bg-highlight text-bold">Begin Interview</Button>
+            {/* <button type="submit" className="bg-black text-white py-2 px-4 rounded-md">
+              Begin Interview
+            </button> */}
           </form>
         </div>
       </div>
