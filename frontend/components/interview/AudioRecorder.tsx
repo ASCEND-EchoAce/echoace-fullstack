@@ -6,7 +6,7 @@ export default function AudioRecorder({
   onStop, 
 }: {
   selectedQuestion: string;
-  onStop: () => void;
+  onStop: (transcription: string, evaluation: string) => void;
 }) {
   const [isRecording, setIsRecording] = useState(false);
   const [transcription, setTranscription] = useState("");
@@ -65,18 +65,14 @@ export default function AudioRecorder({
         setTimeout(() => {
           setIsPending(false);
           setPendingText("");
-          onStop(); // call the parent's callback to change interviewStatus
+          onStop(jsonResponse.transcription, jsonResponse.evaluation); // Pass both transcription and evaluation to the parent
         }, 10);
       } catch (error) {
         console.error("❌ Error fetching server response:", error);
         setTranscription("Error: Could not process audio.");
         setIsPending(false);
         setPendingText("");
-        // setTimeout(() => {
-        //   setIsPending(false);
-        //   setPendingText("");
-        //   onStop(); 
-        // }, 10);
+        onStop("Error: Could not process audio.", "Error: Could not process audio."); // Pass error messages to parent
       }
     }
   };

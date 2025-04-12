@@ -20,7 +20,7 @@ const options = [
   "Describe a time you took ownership of a problem outside your responsibilities.",
   "Tell me about a time you worked with someone very different from you. How did you adapt?",
   "Have you ever had to stand up for something you believed was right in a team setting?",
-  "Tell me about a technical project you’re proud of. What challenges did you face, and how did you overcome them?",
+  "Tell me about a technical project you're proud of. What challenges did you face, and how did you overcome them?",
   "Describe a time when your technical judgment was critical to the success of a project.",
   "Tell me about a time you had to deliver something quickly. How did you prioritize and execute?",
   "Give me an example of a time you had a measurable impact on a project or team.",
@@ -35,6 +35,9 @@ export default function ProtectedPage() {
   const [cameraEnabled, setCameraEnabled] = useState(false);
   const [interviewStatus, setInterviewStatus] = useState<"pre" | "during" | "post">("pre");
   const [question, setQuestion] = useState(options[0]);
+  const [userResponse, setUserResponse] = useState<string>("");
+  const [feedback, setFeedback] = useState<string>("");
+  const [showLearnMore, setShowLearnMore] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const router = useRouter();
 
@@ -53,6 +56,13 @@ export default function ProtectedPage() {
   const handleDropdownChange = (option: string) => {
     setQuestion(option);
     // You can perform additional actions here if needed
+  };
+
+  const handleStopRecording = (transcription: string, evaluation: string) => {
+    setUserResponse(transcription);
+    setFeedback(evaluation);
+    setInterviewStatus("post");
+    setShowLearnMore(true);
   };
 
   useEffect(() => {
@@ -76,13 +86,18 @@ export default function ProtectedPage() {
 
   useEffect(() => {
     if (interviewStatus === "post") {
-      router.push("/feedback");
+      // Instead of redirecting, we'll show the feedback in the chat
+      setShowLearnMore(true);
+      // Ensure feedback is set if it's not already
+      if (!feedback) {
+        setFeedback("Thank you for your response! I've analyzed your answer and here's my feedback...");
+      }
     }
-  }, [interviewStatus, router]);
+  }, [interviewStatus, feedback]);
 
   let content;
 
-  if (interviewStatus === "during") {
+  if (interviewStatus === "during" || interviewStatus === "post") {
     content = (
       <div className="flex flex-col items-center gap-4">
         <div className="flex flex-row gap-16">
@@ -93,64 +108,108 @@ export default function ProtectedPage() {
               <span className="text-white text-xl">Camera Off</span>
             )}
             <label className="absolute bottom-0 flex items-center gap-2 mb-4 bg-white hover:bg-gray-200 py-3 px-3 rounded-full">
-            {cameraEnabled ? (
-              <svg
-                onClick={() => setCameraEnabled(false)}
-                className="h-6 w-6"  
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <polygon points="23 7 16 12 23 17 23 7" />
-                <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
-              </svg>
-            ) : (
-              <svg
-                onClick={() => setCameraEnabled(true)}
-                className="h-6 w-6"  
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M16 16v1a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2m5.66 0H14a2 2 0 0 1 2 2v3.34l1 1L23 7v10" />
-                <line x1="1" y1="1" x2="23" y2="23" />
-              </svg>
-            )}
+              {cameraEnabled ? (
+                <svg
+                  onClick={() => setCameraEnabled(false)}
+                  className="h-6 w-6"  
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polygon points="23 7 16 12 23 17 23 7" />
+                  <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                </svg>
+              ) : (
+                <svg
+                  onClick={() => setCameraEnabled(true)}
+                  className="h-6 w-6"  
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M16 16v1a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2m5.66 0H14a2 2 0 0 1 2 2v3.34l1 1L23 7v10" />
+                  <line x1="1" y1="1" x2="23" y2="23" />
+                </svg>
+              )}
             </label>
           </div> 
-          <div className="border-2 border-gray-300 bg-white h-[300px] w-[400px] rounded-xl "> 
-            <div className="w-full h-[48px] bg-gray-100 rounded-md">
-              <p className="font-bold py-3 px-3 text-slate-500">STEVE </p>
+          <div className="border-2 border-gray-300 bg-white h-[550px] w-[400px] rounded-xl flex flex-col"> 
+            <div className="w-full h-[48px] bg-gray-100 rounded-t-xl">
+              <p className="font-bold py-3 px-3 text-slate-500">STEVE</p>
             </div>
-            
-            <div className="relative px-5 py-3 text-md font-semibold font-sans">
-              <div className="absolute left-5 flex items-start">
-                <Image
-                  src="/logo.png"
-                  alt="logo"
-                  width={24}
-                  height={20}
-                  className="invert"
-                />
+
+            <div className="flex-1 overflow-y-auto p-4">
+              {/* Steve's question */}
+              <div className="flex items-start mb-4">
+                <div className="flex items-start">
+                  <Image
+                    src="/logo.png"
+                    alt="logo"
+                    width={24}
+                    height={20}
+                    className="invert mr-2"
+                  />
+                  <div className="bg-gray-100 rounded-lg p-3">
+                    <Typewriter key={question} text={question} speed={50} />
+                  </div>
+                </div>
               </div>
-              <p className="ml-[40px]">
-                <Typewriter key={question} text={question} speed={50} />
-              </p>
+
+              {/* User's response */}
+              {userResponse && (
+                <div className="flex justify-end mb-4">
+                  <div className="bg-blue-100 rounded-lg p-3 max-w-[80%]">
+                    <p>{userResponse}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Steve's feedback */}
+              {feedback && (
+                <div className="flex items-start">
+                  <div className="flex items-start">
+                    <Image
+                      src="/logo.png"
+                      alt="logo"
+                      width={24}
+                      height={20}
+                      className="invert mr-2"
+                    />
+                    <div className="bg-gray-100 rounded-lg p-3">
+                      <p>{feedback}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
+
+            {/* Learn More button */}
+            {showLearnMore && (
+              <div className="p-4 border-t">
+                <Button 
+                  onClick={() => router.push("/feedback")}
+                  className="w-full bg-gray-800 text-white hover:bg-gray-700"
+                >
+                  Learn More
+                </Button>
+              </div>
+            )}
           </div>
         </div>
-        <div className="mt-2">
-          <AudioRecorder
-            selectedQuestion={question}
-            onStop={() => setInterviewStatus("post")}
-          />
-        </div>
+        {interviewStatus === "during" && (
+          <div className="mt-2">
+            <AudioRecorder
+              selectedQuestion={question}
+              onStop={handleStopRecording}
+            />
+          </div>
+        )}
       </div>
     );
   } else {
