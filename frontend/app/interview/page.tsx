@@ -2,7 +2,7 @@
 
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { InfoIcon } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import AudioRecorder from "@/components/interview/AudioRecorder";
 import { Button } from '@/components/ui/button';
 import Link from "next/link";
@@ -10,11 +10,25 @@ import { useRouter } from "next/navigation";
 import Typewriter from '@/components/normal-typewriter'
 import ProgressBar from "@/components/ProgressBar";
 import Image from 'next/image';
+import CustomDropdown from "@/components/CustomDropdown";
 
 const options = [
-  "Tell me about yourself",
-  "Why LinkedIn?",
-  "Tell me about a time...",
+  "Custom Question",
+  "Tell me about a time you had to solve a complex problem with no clear solution. How did you approach it?",
+  "Describe a situation where you had to learn something new quickly to solve a problem.",
+  "Have you ever led a project or team initiative? What was your role and how did you influence the outcome?",
+  "Describe a time you took ownership of a problem outside your responsibilities.",
+  "Tell me about a time you worked with someone very different from you. How did you adapt?",
+  "Have you ever had to stand up for something you believed was right in a team setting?",
+  "Tell me about a technical project you’re proud of. What challenges did you face, and how did you overcome them?",
+  "Describe a time when your technical judgment was critical to the success of a project.",
+  "Tell me about a time you had to deliver something quickly. How did you prioritize and execute?",
+  "Give me an example of a time you had a measurable impact on a project or team.",
+  "Describe a time you took a big risk or tried something new. What happened?",
+  "Tell me about a time you received critical feedback. How did you react, and what did you do with it?",
+  "Have you ever given someone difficult feedback? How did you approach it?",
+  "Tell me about a time you had a disagreement with a teammate. How did you handle it?",
+  "Give me an example of when you helped someone else succeed.",
 ];
 
 export default function ProtectedPage() {
@@ -35,6 +49,12 @@ export default function ProtectedPage() {
     if (interviewStatus === "pre") return "Interview Details";
     if (interviewStatus === "during") return "Mock Interview"
   }
+
+  const handleDropdownChange = (option: string) => {
+    setQuestion(option);
+    // You can perform additional actions here if needed
+  };
+
   useEffect(() => {
     if (cameraEnabled) {
       navigator.mediaDevices
@@ -109,11 +129,20 @@ export default function ProtectedPage() {
               <p className="font-bold py-3 px-3 text-slate-500">STEVE </p>
             </div>
             
-            <p className="flex flex-row px-5 py-3 text-md text-ellipsis font-semibold font-sans gap-1">
-              <Image src={'/logo.png'} alt={'logo'} width={24} height={20} className="invert" />
-              
-              <Typewriter key={question} text={question} speed={50}/>
+            <div className="relative px-5 py-3 text-md font-semibold font-sans">
+              <div className="absolute left-5 flex items-start">
+                <Image
+                  src="/logo.png"
+                  alt="logo"
+                  width={24}
+                  height={20}
+                  className="invert"
+                />
+              </div>
+              <p className="ml-[40px]">
+                <Typewriter key={question} text={question} speed={50} />
               </p>
+            </div>
           </div>
         </div>
         <div className="mt-2">
@@ -133,35 +162,24 @@ export default function ProtectedPage() {
             Please select a question to start your interview
           </div>
         </div>
-        <div className="flex flex-col mt-4">
-          <Label className="text-xl">Interview Question</Label>
-          <select
-            name="current-status"
-            className="border border-black rounded-md py-2.5 px-10 mt-3 left-0"
-            onChange={(e) => setQuestion(e.target.value)}
-            required
-          >
-            {options.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+          <div className="flex flex-col mt-4">
+            <Label className="text-xl">Interview Question</Label>
+            <CustomDropdown options={options} onChange={handleDropdownChange} />
+          </div>
+          <div className="flex justify-center gap-4 mt-4">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                setInterviewStatus("during");
+              }}
+            >
+              <Button type="submit" variant={'secondary'} className="bg-highlight text-bold">Begin Interview</Button>
+              {/* <button type="submit" className="bg-black text-white py-2 px-4 rounded-md">
+                Begin Interview
+              </button> */}
+            </form>
+          </div>
         </div>
-        <div className="flex justify-center gap-4 mt-4">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setInterviewStatus("during");
-            }}
-          >
-            <Button type="submit" variant={'secondary'} className="bg-highlight text-bold">Begin Interview</Button>
-            {/* <button type="submit" className="bg-black text-white py-2 px-4 rounded-md">
-              Begin Interview
-            </button> */}
-          </form>
-        </div>
-      </div>
     );
   }
 
