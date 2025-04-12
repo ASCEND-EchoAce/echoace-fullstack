@@ -15,6 +15,12 @@ type NavbarProps = {
 export default function Navbar({ user }: NavbarProps) {
   const pathname = usePathname();
 
+  const displayName = user ? 
+    (user.user_metadata?.full_name || 
+     user.user_metadata?.name || 
+     user.email || 
+     'Profile') : 'Profile';
+
   const links = [
     { url: '/userform', label: 'Survey' },
     { url: 'interview', label: 'Interview' }
@@ -104,10 +110,7 @@ export default function Navbar({ user }: NavbarProps) {
                       />
                     </svg>
                   </div>
-                  <h2 className="text-4xl mt-12">Profile</h2>
-                  <button className="mt-12 font-bold border-2 border-blue-500 text-blue-500 rounded-lg py-3 px-8">
-                    Edit User Information
-                  </button>
+                  <h2 className="text-2xl mt-12">{displayName}</h2>
                   <div className="w-80 rounded-lg border shadow-md bg-white text-black mt-8 mb-4">
                     <button className="w-full flex-row text-left hover:bg-gray-50 text-sm py-4 px-2">
                       <div className='flex flex-row gap-1'>
@@ -121,7 +124,7 @@ export default function Navbar({ user }: NavbarProps) {
                           strokeLinejoin="round" 
                           strokeWidth="2" 
                           d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-                        /></svg>Membership
+                        /></svg>Manage membership
                       </div>
                     </button> 
                     <button className="w-full text-left hover:bg-gray-50 text-sm py-4 px-2">
