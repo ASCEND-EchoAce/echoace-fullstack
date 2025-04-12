@@ -42,12 +42,12 @@ export default async function Index() {
       </section>
       <div className="flex flex-col gap-36 mt-24 items-center">
         <LandingDisplay
-          title={'Your Resume.\nYour Stories.'}
+          title={'Your Resume.\nYour Story.'}
           desc={
-            "We'll let you know the best way to present yourself confidently. Lorem dolor sit amet."
+            "Get instant feedback on how to present yourself."
           }
           img={{
-            src: '/snapshot.png',
+            src: '/resume.png',
             alt: 'dummy',
             width: 640,
             height: 480
@@ -62,13 +62,13 @@ export default async function Index() {
           title={'Interview.\nOn Demand.'}
           desc={'Get an instant review on your response. Lorem dolor sit amet.'}
           img={{
-            src: '/snapshot.png',
+            src: '/interview.jpg',
             alt: 'dummy',
             width: 640,
             height: 480
           }}
           cta={{
-            href: '/',
+            href: '/feedback',
             text: 'Secure your next opportunity'
           }}
         />
@@ -78,13 +78,13 @@ export default async function Index() {
             'Craft clear, impactful responses that stand out to employers with our chat agent, Milbert.'
           }
           img={{
-            src: '/snapshot.png',
+            src: '/talking.png',
             alt: 'dummy',
             width: 640,
             height: 480
           }}
           cta={{
-            href: '/',
+            href: '/history',
             text: 'Unlock your full potential'
           }}
         />
