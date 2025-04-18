@@ -22,8 +22,8 @@ export default function Navbar({ user }: NavbarProps) {
      'Profile') : 'Profile';
 
   const links = [
-    { url: '/userform', label: 'Survey' },
-    { url: 'interview', label: 'Interview' }
+    ...(user ? [{ url: '/userform', label: 'Survey' }] : [{ url: '/sign-in', label: 'Survey' }]),
+    ...(user ? [{ url: '/interview', label: 'Interview' }] : [{ url: '/sign-in', label: 'Interview' }])
   ];
 
   return (
