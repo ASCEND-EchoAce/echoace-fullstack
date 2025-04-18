@@ -5,12 +5,12 @@ import { InfoIcon } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
 import AudioRecorder from "@/components/interview/AudioRecorder";
 import { Button } from '@/components/ui/button';
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import Typewriter from '@/components/normal-typewriter'
 import ProgressBar from "@/components/ProgressBar";
 import Image from 'next/image';
 import CustomDropdown from "@/components/CustomDropdown";
+import { User } from '@supabase/supabase-js';
+import { useRouter } from "next/navigation";
 
 const options = [
   "Custom Question",
@@ -39,7 +39,8 @@ export default function ProtectedPage() {
   const [feedback, setFeedback] = useState<string>("");
   const [showLearnMore, setShowLearnMore] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const router = useRouter();
+
+
 
   const getProgress = () => {
     if (interviewStatus === "pre") return 0;    
@@ -233,9 +234,6 @@ export default function ProtectedPage() {
               }}
             >
               <Button type="submit" variant={'secondary'} className="bg-highlight text-bold">Begin Interview</Button>
-              {/* <button type="submit" className="bg-black text-white py-2 px-4 rounded-md">
-                Begin Interview
-              </button> */}
             </form>
           </div>
         </div>

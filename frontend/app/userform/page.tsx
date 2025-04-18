@@ -2,8 +2,24 @@
 
 
 import SurveyForm from '@/components/SurveyForm';
+import { createClient } from '@/utils/supabase/client';
 import { useTheme } from 'next-themes';
+import { useEffect } from 'react';
+import { redirect, useRouter } from 'next/navigation';
+
 export default function Page() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        redirect('/sign-in');
+      }
+    };
+    checkAuth();
+  }, [router]);
   // const [notes, setNotes] = useState<any[] | null>(null);
   // const supabase = createClient();
 
