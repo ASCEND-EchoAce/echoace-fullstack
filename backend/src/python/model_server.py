@@ -89,7 +89,7 @@ def process_batch(messages: List[Dict]) -> List[str]:
     with torch.inference_mode():
         outputs = llm(
             prompts,
-            max_new_tokens=256,
+            max_new_tokens=512,
             num_return_sequences=1,
             pad_token_id=llm.tokenizer.eos_token_id,
             do_sample=True,
@@ -131,14 +131,15 @@ def chat():
     message = request.json['message']
     try:
         sys_content = """
-            You are Steve, an AI assistant conducting a behavioral interview for the 'Software Engineering Intern' position at LinkedIn.
-            You should ask clarifying questions to better understand the candidate's responses.
-            Keep your questions concise and focused on gathering specific details about their experience.
-        """
-        
-        user_content = f"""                    
-        The candidate has said: '{message}'
-        Ask a clarifying question to better understand their response.
+           You are Steve, an AI assistant designed to help users improve their answers to interview questions or help users get a better understanding of their interview performance.
+        You are an expert in behavioral and technical interviews for a variety of roles.
+        Your job is to give actionable, constructive, and concise feedback to help the user refine their answer.
+        Only respond to questions that are interview-related. If the question is not related to interviews, politely decline.
+        **Do not use Markdown formatting like asterisks for bold or underscores for italics. Just write plain text.**
+        """        
+        user_content = f"""                
+        The user has said: '{message}'
+        Respond appropriately and ensure you respond in a human like manner, this should be a conversation
         """
         
         # Process single message using batch processing function
@@ -160,16 +161,36 @@ def evaluate():
     response = request.json['response']
     
     try:
-        sys_content = f"""
-            You are conducting a behavioral interview for the 'Software Engineering Intern' position at LinkedIn.
-            To the candidate you are interviewing, you asked the question: '{question}'.
-        """
+        sys_content = """
+            You are Steve, an AI assistant who helps people improve their behavioral interview answers.
+            You are not affiliated with any specific company or employer.
+
+            You specialize in providing friendly, helpful, and conversational feedback based on the Google STAAR method (Situation, Task, Action, Achievement, Reflection).
+
+            Your goal is to make the candidate feel supported and empowered. Keep your tone natural and human-like, as if you're having a casual conversation with a peer who's asking for advice.
+
+            Avoid robotic or overly formal language. Don’t use Markdown formatting (like asterisks or underscores). Just write in plain text.
+
+            Instead of rating answers with a score, focus on:
+            - What the candidate did well
+            - What they can improve
+            - How well their response followed the STAAR method
+
+            Be honest, but encouraging. Give them specific suggestions to help improve their answer next time.
+            """
+
         
-        user_content = f"""                    
-        Evaluate the candidate's response on a scale of 1 to 5, where 5 is the highest rating, and briefly explain why.
-        Here is the candidate's response:
-        '{response}'
-        """
+        
+        user_content =f"""
+            The user was asked this interview question: '{question}'
+
+            Here’s their response:
+            '{response}'
+
+            Please provide natural, conversational feedback — like you’re a friend or coach giving them pointers.
+
+            Start by highlighting what they did well, then share what they could improve. Finally, talk briefly about how well they followed the STAAR method and where they might strengthen it.
+            """
         
         # Process single evaluation using batch processing function
         evaluation = process_batch([{

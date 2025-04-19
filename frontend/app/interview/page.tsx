@@ -224,7 +224,7 @@ export default function ProtectedPage() {
           </div>
         </div>
           <div className="flex flex-col mt-4">
-            <Label className="text-xl">Interview Question</Label>
+            <Label className="text-xl mb-1 font-semibold">Interview Question</Label>
             <CustomDropdown options={options} onChange={handleDropdownChange} />
           </div>
           <div className="flex justify-center gap-4 mt-4">

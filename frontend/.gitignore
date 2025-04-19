@@ -15,7 +15,7 @@
 
 # production
 /build
-
+backend/src/python/models/base.pt
 # misc
 .DS_Store
 *.pem
