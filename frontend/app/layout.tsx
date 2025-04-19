@@ -1,9 +1,7 @@
 import { Geist } from 'next/font/google';
 import './globals.css';
-import Navbar from '@/components/navbar';
 import { createClient } from '@/utils/supabase/server';
-import { HeartIcon } from 'lucide-react';
-import { SelfContext } from '@/hooks/useSelf';
+import LayoutWrapper from '@/components/layout-wrapper';
 
 const geistSans = Geist({
   display: 'swap',
@@ -16,7 +14,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const supabase = await createClient();
-
   const {
     data: { user }
   } = await supabase.auth.getUser();
@@ -24,17 +21,9 @@ export default async function RootLayout({
   return (
     <html lang="en" className={geistSans.className} suppressHydrationWarning>
       <body>
-        <main className="min-h-screen flex flex-col items-center">
-          <div className="flex-1 w-full flex flex-col items-center text-black">
-            <SelfContext.Provider value={user}>
-              <Navbar user={user} />
-              <div className="flex flex-col gap-20 w-full">{children}</div>
-              <footer className="w-full flex items-center justify-center mx-auto text-center text-xs gap-2 py-16">
-                Built with <HeartIcon /> by ASCEND Product II.
-              </footer>
-            </SelfContext.Provider>
-          </div>
-        </main>
+        <LayoutWrapper user={user}>
+          {children}
+        </LayoutWrapper>
       </body>
     </html>
   );

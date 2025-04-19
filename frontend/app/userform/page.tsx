@@ -1,6 +1,5 @@
 'use client';
 
-
 import SurveyForm from '@/components/SurveyForm';
 import { createClient } from '@/utils/supabase/client';
 import { useTheme } from 'next-themes';

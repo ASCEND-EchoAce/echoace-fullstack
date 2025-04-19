@@ -5,12 +5,12 @@ import { InfoIcon } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
 import AudioRecorder from "@/components/interview/AudioRecorder";
 import { Button } from '@/components/ui/button';
+import { useRouter } from "next/navigation";
 import Typewriter from '@/components/normal-typewriter'
 import ProgressBar from "@/components/ProgressBar";
 import Image from 'next/image';
 import CustomDropdown from "@/components/CustomDropdown";
 import { User } from '@supabase/supabase-js';
-import { useRouter } from "next/navigation";
 
 const options = [
   "Custom Question",
@@ -32,6 +32,7 @@ const options = [
 ];
 
 export default function ProtectedPage() {
+  const router = useRouter();
   const [cameraEnabled, setCameraEnabled] = useState(false);
   const [interviewStatus, setInterviewStatus] = useState<"pre" | "during" | "post">("pre");
   const [question, setQuestion] = useState(options[0]);
