@@ -3,6 +3,7 @@ import './globals.css';
 import Navbar from '@/components/navbar';
 import { createClient } from '@/utils/supabase/server';
 import { HeartIcon } from 'lucide-react';
+import { SelfContext } from '@/hooks/useSelf';
 
 const geistSans = Geist({
   display: 'swap',
@@ -23,14 +24,15 @@ export default async function RootLayout({
   return (
     <html lang="en" className={geistSans.className} suppressHydrationWarning>
       <body>
-        
         <main className="min-h-screen flex flex-col items-center">
           <div className="flex-1 w-full flex flex-col items-center text-black">
-            <Navbar user={user} />
-            <div className="flex flex-col gap-20 w-full">{children}</div>
-            <footer className="w-full flex items-center justify-center mx-auto text-center text-xs gap-2 py-16">
-              Built with <HeartIcon /> by ASCEND Product II.
-            </footer>
+            <SelfContext.Provider value={user}>
+              <Navbar user={user} />
+              <div className="flex flex-col gap-20 w-full">{children}</div>
+              <footer className="w-full flex items-center justify-center mx-auto text-center text-xs gap-2 py-16">
+                Built with <HeartIcon /> by ASCEND Product II.
+              </footer>
+            </SelfContext.Provider>
           </div>
         </main>
       </body>
