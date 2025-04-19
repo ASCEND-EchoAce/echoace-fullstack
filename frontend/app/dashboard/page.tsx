@@ -1,3 +1,5 @@
+'use client';
+
 import { UserAPI } from '@/api/userAPI';
 import { Card } from '@/components/ui/card';
 import { useSelf } from '@/hooks/useSelf';
@@ -11,9 +13,9 @@ export default function Dashboard() {
     UserAPI.getUser(self.id).then((data) => setUser(data.data));
   }, []);
 
-  return <div className="bg-gray-300">
-    <Card>
-      
-    </Card>
-  </div>;
+  return (
+    <div className='h-96'>
+      <Card></Card>
+    </div>
+  );
 }
