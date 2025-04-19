@@ -46,7 +46,7 @@ const App = () => {
 const Sidebar = ({ isCollapsed, onToggle }: { isCollapsed: boolean; onToggle: () => void }) => {
   return (
     <div className={`${isCollapsed ? 'w-20' : 'w-[24%]'} bg-gray-800 text-white py-4 px-5 transition-all duration-300`}>
-      <div className={`flex ${isCollapsed ? 'flex-col gap-4 items-center' : 'flex-row justify-between items-center'}`}>
+      <div className={`flex mb-4 ${isCollapsed ? 'flex-col gap-4 items-center' : 'flex-row justify-between items-center'}`}>
         <Link href="/" className="flex gap-4 items-center">
           <Image src={'/logo.png'} alt={'logo'} width={40} height={40} className="brightness-0 invert" />
         </Link>
@@ -70,13 +70,50 @@ const Sidebar = ({ isCollapsed, onToggle }: { isCollapsed: boolean; onToggle: ()
           </svg>
         </button>
       </div>
-      {!isCollapsed && (
-        <ul className='mt-16'>
-          <li className="mb-2 cursor-pointer hover:text-gray-300">Chat 1</li>
-          <li className="mb-2 cursor-pointer hover:text-gray-300">Chat 2</li>
-          <li className="mb-2 cursor-pointer hover:text-gray-300">Chat 3</li>
-        </ul>
+      {!isCollapsed && ( 
+        <div className='mt-12'>
+          <p className='text-[12px] font-bold'>Previous Interview Feedback</p>
+        </div>
       )}
+      {!isCollapsed && (
+        <div className='h-[calc(100vh-8rem)] flex flex-col items-center min-h-0 transition-all duration-300'>
+          <div className='flex-1 w-full mb-4 py-2 rounded overflow-y-auto'>
+            <ul className='text-[14px] font-medium'>
+              <li className="cursor-pointer hover:text-gray-300 px-2 p-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 1</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 2</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 3</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 4</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 5</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 6</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 7</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 8</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 9</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 10</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 p-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 1</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 2</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 3</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 4</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 5</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 6</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 7</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 8</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 9</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 10</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 p-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 1</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 2</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 3</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 4</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 5</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 6</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 7</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 8</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 9</li>
+              <li className="cursor-pointer hover:text-gray-300 px-2 py-1.5 hover:bg-gray-700 rounded-lg transition-all duration-300">Chat 10</li>
+            </ul>
+          </div>
+        </div>
+      )}
+      
       {!isCollapsed && (
         <div className='flex flex-row justify-center items-center absolute bottom-0 left-3text-xs'>
           Built with <HeartIcon className='size-4 mx-1' /> by ASCEND Product II.
@@ -98,12 +135,10 @@ const Chat = ({ isSidebarCollapsed }: { isSidebarCollapsed: boolean }) => {
       const userMessage = input.trim();
       setInput('');
       
-      // Immediately add user's message and loading indicator
       setMessages(prev => [...prev, { text: userMessage, isUser: true }, { text: '...', isUser: false }]);
       setIsLoading(true);
 
       try {
-        // Send the message to the backend
         const response = await fetch('http://localhost:8080/process-message', {
           method: 'POST',
           headers: {
@@ -116,11 +151,9 @@ const Chat = ({ isSidebarCollapsed }: { isSidebarCollapsed: boolean }) => {
           throw new Error('Failed to send message to the backend');
         }
 
-        // Get the response from the backend (LLM's reply)
         const data = await response.json();
         const llmReply = data.reply;
 
-        // Replace the loading indicator with the actual response
         setMessages(prev => {
           const newMessages = [...prev];
           newMessages[newMessages.length - 1] = { text: llmReply, isUser: false };
@@ -128,7 +161,6 @@ const Chat = ({ isSidebarCollapsed }: { isSidebarCollapsed: boolean }) => {
         });
       } catch (error) {
         console.error('Error sending message:', error);
-        // Replace the loading indicator with error message
         setMessages(prev => {
           const newMessages = [...prev];
           newMessages[newMessages.length - 1] = { text: 'Error: Failed to send message', isUser: false };
@@ -145,48 +177,21 @@ const Chat = ({ isSidebarCollapsed }: { isSidebarCollapsed: boolean }) => {
   }, [messages]);
 
   return (
-    <div
-      className={`
-        h-screen             /* fill screen height */
-        flex-1 flex flex-col items-center
-        min-h-0              /* allow inner flex-1 to shrink */
-        transition-all duration-300
-      `}
-    >
-      {/* ─── scrollable area ─── */}
-      <div
-        className="
-          flex-1
-          w-full
-          mb-4 p-4
-          bg-white rounded
-          overflow-y-auto
-        "
-      >
+    <div className={`h-screen flex-1 flex flex-col items-center min-h-0 transition-all duration-300`}>
+      <div className='flex-1 w-full mb-4 p-4 bg-white rounded overflow-y-auto'>
         {messages.map((msg, i) => (
           <div
             key={i}
-            className={`
-              flex ${msg.isUser ? 'justify-end' : 'justify-start'}
-              px-40 mb-4
-            `}
-          >
-            <div
-              className={`
-                max-w-[60%] rounded-lg p-3 mt-2
-                ${msg.isUser ? 'bg-gray-100' : 'bg-blue-50'}
-              `}
-            >
+            className={`flex ${msg.isUser ? 'justify-end' : 'justify-start'} px-40 mb-4`}>
+            <div className={`max-w-[60%] rounded-lg p-3 mt-2 ${msg.isUser ? 'bg-gray-100' : 'bg-blue-50'}`}>
               {msg.text}
             </div>
           </div>
         ))}
 
-        {/* this empty div is our scroll‐target */}
         <div ref={bottomRef} />
       </div>
 
-      {/* ─── input bar ─── */}
       <div className="flex items-center w-[660px] mb-8">
         <input
           type="text"

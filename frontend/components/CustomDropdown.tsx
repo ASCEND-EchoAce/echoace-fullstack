@@ -38,10 +38,10 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ options, onChange }) =>
   };
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative bg-white" ref={dropdownRef}>
       <button
         type="button"
-        className={`border border-black rounded-md px-4 min-h-10 w-[600px] text-left flex items-center ${
+        className={`border border-black py-2 rounded-lg px-4 min-h-10 w-[600px] text-left flex items-center ${
           selected === '' ? 'text-gray-500' : ''
         }`}
         onClick={() => setIsOpen(!isOpen)}
