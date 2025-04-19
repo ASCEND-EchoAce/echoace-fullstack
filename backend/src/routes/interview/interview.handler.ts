@@ -48,6 +48,20 @@ export const getInterviewById = async (req: Request, res: Response) => {
   }
 };
 
+export const getInterviewByUserFid = async (req: Request, res: Response) => {
+  const { user_fid } = req.params;
+
+  try {
+    const { data, error } = await supabase.from('interviews').select('*').eq('user_fid', user_fid);
+
+    if (error) throw error;
+
+    res.status(200).json(data);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // Update an interview by ID
 export const updateInterview = async (req: Request, res: Response) => {
   const { id } = req.params;

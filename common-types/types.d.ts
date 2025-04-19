@@ -1,4 +1,4 @@
-export interface Interview {
+interface Interview {
   id: number;
   created_at: string;
   user_fid: number;
@@ -7,14 +7,14 @@ export interface Interview {
   question: string;
 }
 
-export interface User {
+interface User {
   id: number;
   created_at: string;
   email: string;
   completed_onboarding: boolean;
 }
 
-export interface UserProfile {
+interface UserProfile {
   id: number;
   created_at: string;
   first_name: string;

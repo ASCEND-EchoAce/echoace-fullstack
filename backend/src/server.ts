@@ -37,7 +37,7 @@ const startPythonServer = () => {
 };
 
 // Start the Python server when Node.js server starts
-startPythonServer();
+// startPythonServer();
 
 // Middleware
 app.use(cors());
