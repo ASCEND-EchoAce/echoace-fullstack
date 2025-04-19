@@ -2,12 +2,12 @@ import { Request, Response } from 'express';
 import { supabase } from '../../supabase';
 
 export const createUser = async (req: Request, res: Response) => {
-  const { email } = req.body;
+  const { userId, email } = req.body;
 
   try {
     const { data, error } = await supabase
       .from('users')
-      .insert([{ email, completed_onboarding: false }])
+      .insert([{ id: userId, email, completed_onboarding: false }])
       .select()
       .single();
 

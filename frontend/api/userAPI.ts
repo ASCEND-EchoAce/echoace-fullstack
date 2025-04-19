@@ -1,14 +1,14 @@
 import APIWrapper from './APIWrapper';
 
 export class UserAPI {
-  public static async getUser(userId: string): Promise<User> {
-    const response = await APIWrapper.get(`/user/${userId}`);
+  public static async getUser(userId: string): Promise<{ data: User; error: any }> {
+    const response = await APIWrapper.get(`/users/${userId}`);
 
-    return response.data;
+    return response;
   }
 
-  public static async createUser(email: string): Promise<User> {
-    const response = await APIWrapper.post('/user', { email });
+  public static async createUser(email: string, userId: string): Promise<User> {
+    const response = await APIWrapper.post('/users', { email, userId });
 
     return response.data;
   }

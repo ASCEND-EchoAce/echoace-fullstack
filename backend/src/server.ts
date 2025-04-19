@@ -8,6 +8,7 @@ import { spawn } from 'child_process';
 import interviewRouter from './routes/interview/interview.router';
 import userRouter from './routes/users/user.router';
 import userProfileRouter from './routes/user-profiles/userProfile.router';
+import next from 'next';
 
 const app: Express = express();
 const port = 8080;
@@ -144,6 +145,11 @@ app.post('/process-message', async (req: Request, res: Response) => {
 app.use('/api/interview', interviewRouter);
 app.use('/api/users', userRouter);
 app.use('/api/user-profiles', userProfileRouter);
+
+app.use('/', (req, _, next) => {
+  console.log(`📥 Received request: ${req.method} ${req.url}`);
+  next();
+});
 
 // Start the server
 app.listen(port, () => {

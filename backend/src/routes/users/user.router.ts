@@ -7,7 +7,7 @@ const userRouter = Router();
 userRouter.post('/', createUser);
 
 // Get a user by ID
-userRouter.put('/:id', getUserById);
+userRouter.get('/:id', getUserById);
 
 // Update a user by ID
 userRouter.put('/:id', updateUser);
