@@ -4,6 +4,8 @@ import { encodedRedirect } from '@/utils/utils';
 import { createClient } from '@/utils/supabase/server';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
+import { UserAPI } from '@/api/userAPI';
+import { UserProfileAPI } from '@/api/userProfileAPI';
 
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get('email')?.toString();
@@ -15,7 +17,7 @@ export const signUpAction = async (formData: FormData) => {
     return encodedRedirect('error', '/sign-up', 'Email and password are required');
   }
 
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -27,10 +29,15 @@ export const signUpAction = async (formData: FormData) => {
     console.error(error.code + ' ' + error.message);
     return encodedRedirect('error', '/sign-up', error.message);
   } else {
+    if (data.user) {
+      await UserAPI.createUser(email, data.user.id);
+      await UserProfileAPI.createUserProfile({
+        user_fid: data.user.id
+      });
+    }
     return encodedRedirect(
       'success',
-      // '/userform',
-      '/sign-up',
+      '/dashboard',
       'Thanks for signing up! Please check your email for a verification link.'
     );
   }
@@ -50,7 +57,7 @@ export const signInAction = async (formData: FormData) => {
     return encodedRedirect('error', '/sign-in', error.message);
   }
 
-  return redirect('/');
+  return redirect('/dashboard');
 };
 
 export const forgotPasswordAction = async (formData: FormData) => {

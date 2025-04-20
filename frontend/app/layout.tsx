@@ -21,9 +21,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className={geistSans.className} suppressHydrationWarning>
       <body>
-        <LayoutWrapper user={user}>
-          {children}
-        </LayoutWrapper>
+        <LayoutWrapper user={user}>{children}</LayoutWrapper>
       </body>
     </html>
   );

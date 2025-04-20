@@ -14,14 +14,20 @@ type NavbarProps = {
 export default function Navbar({ user }: NavbarProps) {
   const pathname = usePathname();
 
+  const displayName = user
+    ? user.user_metadata?.full_name || user.user_metadata?.name || user.email || 'Profile'
+    : 'Profile';
+
   const links = [
     ...(user ? [{ url: '/userform', label: 'Survey' }] : [{ url: '/sign-in', label: 'Survey' }]),
-    ...(user ? [{ url: '/interview', label: 'Interview' }] : [{ url: '/sign-in', label: 'Interview' }])
+    ...(user
+      ? [{ url: '/interview', label: 'Interview' }]
+      : [{ url: '/sign-in', label: 'Interview' }])
   ];
 
   return (
     <>
-      {(pathname === '/' || pathname === '/interview') && (
+      {pathname === '/' && (
         <img
           src="/landing-background.png"
           alt="landing page background"
