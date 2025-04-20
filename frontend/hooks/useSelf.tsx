@@ -1,16 +1,18 @@
-import { User } from '@supabase/supabase-js';
 import { createContext, useContext } from 'react';
 
-export const SelfContext = createContext<User | null | undefined>(undefined);
+export type UserData = {
+  user: DBUser | null;
+  profile: UserProfile | null;
+};
 
-export const useSelf = (): User => {
+export const SelfContext = createContext<UserData | undefined>(undefined);
+
+export const useSelf = (): UserData => {
   const self = useContext(SelfContext);
 
   if (self === undefined) {
     throw new Error('useSelf must be used within a SelfProvider');
-  } else if (self === null) {
-    throw new Error('useSElf must be used while signed in.');
   }
-
-  return self;
+  
+  return { user: self.user, profile: self.profile };
 };

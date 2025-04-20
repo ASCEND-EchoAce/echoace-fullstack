@@ -142,7 +142,7 @@ app.post('/process-message', async (req: Request, res: Response) => {
   }
 });
 
-app.use('/api/interview', interviewRouter);
+app.use('/api/interviews', interviewRouter);
 app.use('/api/users', userRouter);
 app.use('/api/user-profiles', userProfileRouter);
 

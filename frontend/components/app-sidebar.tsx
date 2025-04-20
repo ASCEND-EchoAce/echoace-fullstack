@@ -11,17 +11,13 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
   useSidebar
 } from './ui/sidebar';
-import { UserProfileDropdown } from './UserProfileDropdown';
-import { useSelf } from '@/hooks/useSelf';
 import { usePathname } from 'next/navigation';
 
 export default function AppSidebar() {
-  const self = useSelf();
   const pathname = usePathname();
-  const { state, toggleSidebar } = useSidebar();
+  const { state, setSidebarState } = useSidebar();
 
   const items = [
     {
@@ -42,7 +38,12 @@ export default function AppSidebar() {
   ];
 
   return (
-    <Sidebar variant="floating" collapsible="icon">
+    <Sidebar
+      variant="floating"
+      collapsible="icon"
+      onMouseEnter={() => setSidebarState(true)}
+      onMouseLeave={() => setSidebarState(false)}
+    >
       <SidebarHeader className="flex items-center justify-center h-16">
         {state === 'expanded' && (
           <div className="flex gap-8">
@@ -75,18 +76,10 @@ export default function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="flex items-center flex-row justify-center h-16 font-bold text-lg">
-        {state === 'expanded' ? (
-          <>
-            <div className="flex items-center gap-4">
-              <p>Profile</p>
-              <UserProfileDropdown user={self} />
-            </div>
-            <ChevronLeft onClick={toggleSidebar} className="absolute right-5 hover:bg-gray-200 rounded-lg" />
-          </>
-        ) : (
-          <SidebarMenuButton asChild>
-            <ChevronRight onClick={toggleSidebar} />
-          </SidebarMenuButton>
+        {state === 'expanded' && (
+          <div className="flex items-center gap-4">
+            <Link href="/profile">Profile</Link>
+          </div>
         )}
       </SidebarFooter>
     </Sidebar>

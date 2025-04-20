@@ -2,12 +2,17 @@ import APIWrapper from './APIWrapper';
 
 export class UserProfileAPI {
   public static async getUserProfile(userId: string): Promise<UserProfile> {
-    const response = await APIWrapper.get(`/user-profile/${userId}`);
-    return response.data;
+    const response = await APIWrapper.get(`/user-profiles/${userId}`);
+    return response;
   }
 
-  public static async createUserProfile(profile: UserProfile): Promise<UserProfile> {
-    const response = await APIWrapper.post('/user-profile', { ...profile });
-    return response.data;
+  public static async createUserProfile(profile: Partial<UserProfile>): Promise<UserProfile> {
+    const response = await APIWrapper.post('/user-profiles', profile);
+    return response;
+  }
+
+  public static async updateUserProfile(profile: Partial<UserProfile>): Promise<UserProfile> {
+    const response = await APIWrapper.put(`/user-profiles/${profile.user_fid}`, profile);
+    return response;
   }
 }

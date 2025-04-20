@@ -1,14 +1,14 @@
 interface Interview {
   id: number;
   created_at: string;
-  user_fid: number;
+  user_fid: string;
   transcript: string;
   evaluation: string;
   question: string;
 }
 
-interface User {
-  id: number;
+interface DBUser {
+  id: string;
   created_at: string;
   email: string;
   completed_onboarding: boolean;
@@ -19,5 +19,6 @@ interface UserProfile {
   created_at: string;
   first_name: string;
   last_name: string;
-  user_fid: number;
+  industry: string;
+  user_fid: string;
 }

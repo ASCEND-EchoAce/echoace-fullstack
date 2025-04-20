@@ -5,6 +5,7 @@ import { createClient } from '@/utils/supabase/server';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { UserAPI } from '@/api/userAPI';
+import { UserProfileAPI } from '@/api/userProfileAPI';
 
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get('email')?.toString();
@@ -28,7 +29,12 @@ export const signUpAction = async (formData: FormData) => {
     console.error(error.code + ' ' + error.message);
     return encodedRedirect('error', '/sign-up', error.message);
   } else {
-    if (data.user) await UserAPI.createUser(email, data.user.id);
+    if (data.user) {
+      await UserAPI.createUser(email, data.user.id);
+      await UserProfileAPI.createUserProfile({
+        user_fid: data.user.id
+      });
+    }
     return encodedRedirect(
       'success',
       '/dashboard',
@@ -42,20 +48,13 @@ export const signInAction = async (formData: FormData) => {
   const password = formData.get('password') as string;
   const supabase = await createClient();
 
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { error } = await supabase.auth.signInWithPassword({
     email,
     password
   });
 
   if (error) {
     return encodedRedirect('error', '/sign-in', error.message);
-  }
-
-  if (data.user) {
-    const { error } = await UserAPI.getUser(data.user.id);
-    if (error) {
-      await UserAPI.createUser(email, data.user.id);
-    }
   }
 
   return redirect('/dashboard');
