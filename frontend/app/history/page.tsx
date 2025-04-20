@@ -1,32 +1,53 @@
-import { createClient } from '@/utils/supabase/server';
-import { redirect } from 'next/navigation';
-import { SubmitButton } from '@/components/submit-button';
+'use client';
 
-export default async function ProtectedPage() {
-  const supabase = await createClient();
+import { interviewAPI } from '@/api/interviewAPI';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useSelf } from '@/hooks/useSelf';
+import { useEffect, useState } from 'react';
 
-  const {
-    data: { user }
-  } = await supabase.auth.getUser();
+export default function HistoryPage() {
+  const [interviews, setInterviews] = useState<Interview[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { user } = useSelf();
 
-  if (!user) {
-    return redirect('/sign-in');
+  useEffect(() => {
+    if (!user) return;
+    interviewAPI.getInterview(user.id || '').then((interviews) => setInterviews(interviews));
+    setLoading(false);
+  }, [user]);
+
+  if (loading) {
+    return (
+      <>
+        <Skeleton className="h-36 w-full" />
+        <Skeleton className="h-36 w-full" />
+      </>
+    );
   }
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-12">
-      <div className="flex flex-col mt-20 gap-2 items-center">
-        <h2 className="font-bold text-4xl mb-1">Your History</h2>
-      </div>
-      <p className="text-xl mb-1">Look through your previous chats with us!</p>
-      <div className="flex flex-wrap gap-10">
-        <div className="flex border-2 w-120 h-40 rounded mt-4 mb-10">
-          <p className="font-bold text-xl">Interview #1</p>
-        </div>
-        <div className="flex border-2 w-120 h-40 rounded mt-4 mb-10">
-          <p className="font-bold text-xl">Interview #2</p>
-        </div>
-      </div>
+    <div className="flex flex-col gap-8">
+      <h1 className="text-3xl font-bold">History</h1>
+      {interviews.map((interview) => {
+        const date = new Date(interview.created_at);
+        return (
+          <Card key={interview.id}>
+            <CardHeader>
+              <CardTitle>{interview.question}</CardTitle>
+              <CardDescription>{date.toDateString()}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p>
+                <strong>Transcription: </strong> {interview.transcript}
+              </p>
+              <p>
+                <strong>Evaluation: </strong> {interview.evaluation}
+              </p>
+            </CardContent>
+          </Card>
+        );
+      })}
     </div>
   );
 }

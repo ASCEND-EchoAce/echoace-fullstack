@@ -52,7 +52,11 @@ export const getInterviewByUserFid = async (req: Request, res: Response) => {
   const { user_fid } = req.params;
 
   try {
-    const { data, error } = await supabase.from('interviews').select('*').eq('user_fid', user_fid);
+    const { data, error } = await supabase
+      .from('interviews')
+      .select('*')
+      .eq('user_fid', user_fid)
+      .order('created_at', { ascending: false });
 
     if (error) throw error;
 
