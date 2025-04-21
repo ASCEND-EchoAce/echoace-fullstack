@@ -48,8 +48,8 @@ export default function LayoutWrapper({ children, user }: LayoutWrapperProps) {
         {!showNavbar && <AppSidebar />}
         <main className="min-h-screen flex flex-col w-full items-center">
           <div
-            className={`flex-1 w-full flex flex-col items-center text-black ${showNavbar ? '' : 'p-8'}`}
-          >
+            className={`flex-1 w-full flex flex-col items-center text-black ${showNavbar ? '' : pathname === '/feedback' ? '' : 'p-8'}`}
+            >
             {showNavbar && <Navbar user={user} />}
             <div className="flex flex-col gap-20 w-full">{children}</div>
             {showNavbar && (
