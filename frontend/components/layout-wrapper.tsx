@@ -21,7 +21,7 @@ export default function LayoutWrapper({ children, user }: LayoutWrapperProps) {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
 
   const pathname = usePathname();
-  const authorizedPaths = ['/dashboard', '/interview', '/feedback', '/history', '/profile'];
+  const authorizedPaths = ['/dashboard', '/interview', '/feedback', '/history', '/profile', '/membership'];
   const showNavbar = authorizedPaths.every((path) => !pathname.startsWith(path));
 
   useEffect(() => {

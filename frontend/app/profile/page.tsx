@@ -14,6 +14,7 @@ import {
   CardFooter
 } from '@/components/ui/card';
 import { UserProfileAPI } from '@/api/userProfileAPI';
+import Link from 'next/link';
 
 type Message = { error: string } | { success: string };
 
@@ -113,6 +114,22 @@ export default function profilePage() {
             <Button variant="destructive" className="w-min">
               Delete
             </Button>
+          </div>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Membership</CardTitle>
+          <CardDescription>Your membership information.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col gap-4">
+            <Label>Membership</Label>
+            <Link href="/membership">
+              <Button variant="outline" className="w-min" >
+                Manage
+              </Button>
+            </Link>
           </div>
         </CardContent>
       </Card>
