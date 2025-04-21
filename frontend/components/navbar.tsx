@@ -19,7 +19,7 @@ export default function Navbar({ user }: NavbarProps) {
     : 'Profile';
 
   const links = [
-    ...(user ? [{ url: '/dashboard', label: 'Dashboard' }] : [{ url: '/sign-in', label: 'Survey' }]),
+    ...(user ? [{ url: '/dashboard', label: 'Dashboard' }] : [{ url: '/sign-in', label: 'Dashboard' }]),
     ...(user
       ? [{ url: '/interview', label: 'Interview' }]
       : [{ url: '/sign-in', label: 'Interview' }])
