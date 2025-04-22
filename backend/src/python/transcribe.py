@@ -2,6 +2,7 @@ import sys
 import whisper
 from pydub import AudioSegment
 from Inferencing.evaluators import BasicEvaluator
+from supabase import create_client
 
 def convert_to_wav(input_file):
     output_file = input_file.replace(".webm", ".wav")
@@ -36,6 +37,16 @@ def main(audio_path):
     print(transcription_text)
 
 if __name__ == "__main__":
+    session = supabase.auth.get_session()
+    if session and session.user:
+        user = session.user
+        print("User ID:", user.id)
+        print("Email:", user.email)
+    else:
+        print("No user is logged in.")
+    
+    data = supabase.table("interviews").select('*').execute()
+
     if len(sys.argv) < 2:
         sys.exit(1)
 

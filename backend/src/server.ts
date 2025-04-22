@@ -9,6 +9,8 @@ import interviewRouter from './routes/interview/interview.router';
 import userRouter from './routes/users/user.router';
 import userProfileRouter from './routes/user-profiles/userProfile.router';
 import next from 'next';
+import { supabase } from './supabase';
+import { createInterview, getInterviewByUserFid, getInterviewById } from './routes/interview/interview.handler';
 
 const app: Express = express();
 const port = 8080;
@@ -38,7 +40,7 @@ const startPythonServer = () => {
 };
 
 // Start the Python server when Node.js server starts
-// startPythonServer();
+startPythonServer();
 
 // Middleware
 app.use(cors());
@@ -109,6 +111,35 @@ app.post('/process-audio', upload.single('audio'), async (req: Request, res: Res
     });
 
     console.log('✅ Evaluation result:', evaluateResponse.data.evaluation);
+    
+    // Save interview data using the createInterview function
+    try {
+      // Create a mock response object to pass to createInterview
+      const mockRes = {
+        status: (code: number) => ({
+          json: (data: any) => {
+            if (code === 201) {
+              console.log('✅ Interview saved to Supabase with ID:', data.id);
+            } else {
+              console.error('❌ Error saving to Supabase:', data.error);
+            }
+          }
+        })
+      };
+      
+      // Call the createInterview function with the interview data
+      await createInterview({
+        body: {
+          user_fid: req.body.user_fid,
+          transcript: transcription,
+          evaluation: evaluateResponse.data.evaluation,
+          question: selectedQuestion
+        }
+      } as Request, mockRes as Response);
+    } catch (dbError) {
+      console.error('❌ Database error:', dbError);
+    }
+    
     res.json({
       transcription,
       evaluation: evaluateResponse.data.evaluation
@@ -121,17 +152,21 @@ app.post('/process-audio', upload.single('audio'), async (req: Request, res: Res
 
 // Route to handle messages
 app.post('/process-message', async (req: Request, res: Response) => {
-  const { message } = req.body;
+  const { message, interview_id, user_fid } = req.body;
 
   if (!message) {
     return res.status(400).json({ error: 'No message received.' });
   }
 
   console.log(`📥 Received message: ${message}`);
+  if (interview_id) console.log(`📥 Interview ID: ${interview_id}`);
+  if (user_fid) console.log(`📥 User FID: ${user_fid}`);
 
   try {
     const response = await axios.post(`${PYTHON_SERVER_URL}/chat`, {
-      message
+      message,
+      interview_id,
+      user_fid
     });
 
     console.log('✅ LLM Reply:', response.data.reply);
@@ -145,6 +180,50 @@ app.post('/process-message', async (req: Request, res: Response) => {
 app.use('/api/interviews', interviewRouter);
 app.use('/api/users', userRouter);
 app.use('/api/user-profiles', userProfileRouter);
+
+// Get the most recent interview for a user
+app.get('/api/recent-interview/:user_fid', async (req: Request, res: Response) => {
+  const { user_fid } = req.params;
+  
+  try {
+    // Call the getInterviewByUserFid function
+    await getInterviewByUserFid(req, res);
+  } catch (error) {
+    console.error('❌ Error:', error);
+    res.status(500).json({ error: 'Failed to fetch recent interview' });
+  }
+});
+
+// Test Supabase connection in Python server
+app.get('/api/test-supabase', async (_req: Request, res: Response) => {
+  try {
+    const response = await axios.get(`${PYTHON_SERVER_URL}/test-supabase`);
+    res.json(response.data);
+  } catch (error) {
+    console.error('❌ Error testing Supabase connection:', error);
+    res.status(500).json({ error: 'Failed to test Supabase connection' });
+  }
+});
+
+// API endpoint for Python server to get interview by ID
+app.get('/api/interview/:id', async (req: Request, res: Response) => {
+  const { id } = req.params;
+  
+  try {
+    // Call the getInterviewById function directly with the ID
+    const { data, error } = await supabase.from('interviews').select('*').eq('id', id).single();
+    
+    if (error) {
+      console.error('❌ Error fetching interview:', error);
+      return res.status(500).json({ error: error.message });
+    }
+    
+    res.status(200).json(data);
+  } catch (error) {
+    console.error('❌ Error fetching interview:', error);
+    res.status(500).json({ error: 'Failed to fetch interview' });
+  }
+});
 
 app.use('/', (req, _, next) => {
   console.log(`📥 Received request: ${req.method} ${req.url}`);

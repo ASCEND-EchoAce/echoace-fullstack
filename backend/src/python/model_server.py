@@ -5,8 +5,48 @@ import whisper
 import os
 from typing import List, Dict
 import numpy as np
+import requests
+import json
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
+
+# Supabase configuration
+SUPABASE_URL = os.environ.get('NEXT_PUBLIC_SUPABASE_URL')
+SUPABASE_KEY = os.environ.get('NEXT_PUBLIC_SUPABASE_ANON_KEY')
+
+def get_interview_data(interview_id=None, user_fid=None):
+    """Fetch interview data from Supabase"""
+    if not SUPABASE_URL or not SUPABASE_KEY:
+        raise ValueError("Supabase URL or key is missing.")
+    
+    if not interview_id and not user_fid:
+        raise ValueError("Either interview_id or user_fid must be provided.")
+    
+    headers = {
+        'apikey': SUPABASE_KEY,
+        'Authorization': f'Bearer {SUPABASE_KEY}',
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation'
+    }
+
+    if interview_id:
+        url = f"{SUPABASE_URL}/rest/v1/interviews?id=eq.{interview_id}"
+    else:
+        url = f"{SUPABASE_URL}/rest/v1/interviews?user_fid=eq.{user_fid}&order=created_at.desc&limit=1"
+    
+    try:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        data = response.json()
+        return data[0] if data else None
+    except requests.RequestException as e:
+        print(f"Error fetching interview data: {e}")
+        return None
+
 
 def load_optimized_model():
     print("Loading models...")
@@ -129,18 +169,72 @@ def chat():
         return jsonify({'error': 'No message provided'}), 400
     
     message = request.json['message']
+    
+    # Get latest interview (highest ID) from Supabase
+    headers = {
+        'apikey': SUPABASE_KEY,
+        'Authorization': f'Bearer {SUPABASE_KEY}',
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation'
+    }
     try:
-        sys_content = """
-           You are Steve, an AI assistant designed to help users improve their answers to interview questions or help users get a better understanding of their interview performance.
-        You are an expert in behavioral and technical interviews for a variety of roles.
-        Your job is to give actionable, constructive, and concise feedback to help the user refine their answer.
-        Only respond to questions that are interview-related. If the question is not related to interviews, politely decline.
-        **Do not use Markdown formatting like asterisks for bold or underscores for italics. Just write plain text.**
-        """        
+        latest_url = f"{SUPABASE_URL}/rest/v1/interviews?select=id&order=id.desc&limit=1"
+        latest_response = requests.get(latest_url, headers=headers)
+        latest_response.raise_for_status()
+        latest_data = latest_response.json()
+        interview_id = latest_data[0]['id'] if latest_data else None
+        print(f"Using latest interview ID: {interview_id}")
+    except Exception as e:
+        print(f"Error fetching latest interview ID: {str(e)}")
+        return jsonify({'error': 'Failed to get latest interview ID'}), 500
+
+    
+    # Get interview data from the Node.js server
+    interview_data = None
+    try:
+        # Call the Node.js API endpoint to get the interview data
+        node_server_url = "http://127.0.0.1:8080"
+        response = requests.get(f"{node_server_url}/api/interview/{interview_id}")
+        
+        if response.status_code == 200:
+            interview_data = response.json()
+            print(f"Successfully retrieved interview data: {interview_data.get('question', 'No question')}")
+        else:
+            print(f"Error retrieving interview data: {response.status_code} - {response.text}")
+    except Exception as e:
+        print(f"Exception retrieving interview data: {str(e)}")
+    
+    try:
+        sys_content = f"""
+        You are Steve, an AI assistant designed to help users improve their interview responses and better understand their interview performance.
+        - Help the user understand the interview question and their response.
+        - ONLY respond to questions about the interview or the interview response. Politely decline unrelated requests.
+        - Support clarifications, hypotheticals, and improvements (e.g., “Would it be better if I did this instead?”).
+        - Keep responses professional, structured, and polite — but not robotic or overly casual.
+        - Your tone should be helpful, productive, and to the point.
+        - When evaluating, compare the users response to the Google STAR method:
+            - Situation: Describe the background context.
+            - Task: Define the challenge or objective.
+            - Action: Explain what the user specifically did.
+            - Result: Share the measurable or meaningful outcome.
+
+        You are about to assist a user in improving their interview performance. Before you do that, here is the interview data of the practice interview that the user just completed and wants to ask questions about:
+        Here is the data you've received:
+        - Question: {interview_data.get('question', 'N/A') if interview_data else 'N/A'}
+        - Transcript: {interview_data.get('transcript', 'N/A') if interview_data else 'N/A'}
+        - Evaluation: {interview_data.get('evaluation', 'N/A') if interview_data else 'N/A'}
+        
+        General Guidelines:
+        - Never provide feedback that isn’t earned.
+        - Always stay focused on interview performance.
+        - Do not use Markdown formatting like asterisks for bold or underscores for italics. Just write plain text.
+        """
+        
         user_content = f"""                
         The user has said: '{message}'
         Respond appropriately and ensure you respond in a human like manner, this should be a conversation
         """
+
         
         # Process single message using batch processing function
         response = process_batch([{
@@ -150,6 +244,7 @@ def chat():
         
         return jsonify({'reply': response})
     except Exception as e:
+        print(f"Error in chat endpoint: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/evaluate', methods=['POST'])
@@ -165,18 +260,22 @@ def evaluate():
             You are Steve, an AI assistant who helps people improve their behavioral interview answers.
             You are not affiliated with any specific company or employer.
 
-            You specialize in providing friendly, helpful, and conversational feedback based on the Google STAAR method (Situation, Task, Action, Achievement, Reflection).
+            - Help the user understand the interview question and their response.
+            - Do NOT repeat the full content of the response or question. Reference them only when needed.
+            - ONLY respond to questions about the interview or the interview response. Politely decline unrelated requests.
+            - Support clarifications, hypotheticals, and improvements (e.g., “Would it be better if I did this instead?”).
+            - Keep responses professional, structured, and polite — but not robotic or overly casual.
+            - Your tone should be helpful, productive, and to the point.
+            - When evaluating, compare the users response to the Google STAR method:
+                - Situation: Describe the background context.
+                - Task: Define the challenge or objective.
+                - Action: Explain what the user specifically did.
+                - Result: Share the measurable or meaningful outcome.
 
-            Your goal is to make the candidate feel supported and empowered. Keep your tone natural and human-like, as if you're having a casual conversation with a peer who's asking for advice.
-
-            Avoid robotic or overly formal language. Don’t use Markdown formatting (like asterisks or underscores). Just write in plain text.
-
-            Instead of rating answers with a score, focus on:
-            - What the candidate did well
-            - What they can improve
-            - How well their response followed the STAAR method
-
-            Be honest, but encouraging. Give them specific suggestions to help improve their answer next time.
+            General Guidelines:
+            - Never provide feedback that isn’t earned.
+            - Always stay focused on interview performance.
+            - Do not use Markdown formatting like asterisks for bold or underscores for italics. Just write plain text.
             """
 
         
@@ -184,12 +283,10 @@ def evaluate():
         user_content =f"""
             The user was asked this interview question: '{question}'
 
-            Here’s their response:
+            Here's their response:
             '{response}'
 
-            Please provide natural, conversational feedback — like you’re a friend or coach giving them pointers.
-
-            Start by highlighting what they did well, then share what they could improve. Finally, talk briefly about how well they followed the STAAR method and where they might strengthen it.
+            Start by highlighting if and what they did well, then share what they could improve.
             """
         
         # Process single evaluation using batch processing function

@@ -2,17 +2,19 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { signOutAction } from '@/app/actions';
 import { createClient } from '@/utils/supabase/client';
 import { User } from '@supabase/supabase-js';
 import { UserProfileDropdown } from '@/components/UserProfileDropdown';
 import { HeartIcon } from 'lucide-react';
-import { useRef } from 'react';
 
 const App = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [interviewData, setInterviewData] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
     const checkAuth = async () => {
       const supabase = createClient();
@@ -22,11 +24,31 @@ const App = () => {
     checkAuth();
   }, []);
 
-  const displayName = user ? 
-    (user.user_metadata?.full_name || 
-     user.user_metadata?.name || 
-     user.email || 
-     'Profile') : 'Profile';
+  useEffect(() => {
+    const fetchInterviewData = async () => {
+      try {
+        const supabase = createClient();
+
+        const { data, error } = await supabase
+          .from('interviews')  // replace with your actual table name if it's different
+          .select('*')
+          .order('id', { ascending: false })
+          .limit(1)
+          .single();  // to unwrap the array directly into an object
+
+        if (error) {
+          throw new Error(error.message);
+        }
+
+        setInterviewData(data);
+
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to fetch interview data');
+      }
+    };
+
+    fetchInterviewData();
+  }, []);
 
   return (
     <div className="flex h-screen w-full">
@@ -34,23 +56,43 @@ const App = () => {
         <div className="flex justify-end py-5 px-10">
           <UserProfileDropdown user={user} />
         </div>
-        <Chat />
+        <Chat initialInterviewData={interviewData} />
       </div>
     </div>
   );
 };
 
-const Chat = () => {
+const InterviewSummary = ({ data }: { data: any }) => {
+  const createdAt = new Date(data.created_at).toLocaleString();
+  return (
+    <>
+      👋 Hi! I'm Steve, your interview assistant. Here's a recap of the interview:
+      <br /><br />
+      🗓️ <strong>Created At:</strong> {createdAt}<br />
+      ❓ <strong>Question:</strong> {data.question || 'N/A'}<br />
+      🗣️ <strong>Transcript:</strong> {data.transcript || 'N/A'}<br />
+      📋 <strong>Evaluation:</strong><br />
+      {data.evaluation || 'N/A'}
+    </>
+  );
+};
+
+const Chat = ({ initialInterviewData }: { initialInterviewData: any }) => {
   const bottomRef = useRef<HTMLDivElement>(null);
-  const [messages, setMessages] = useState<{ text: string; isUser: boolean }[]>([]);
+  const [messages, setMessages] = useState<{ text?: string; isUser: boolean; data?: any }[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (initialInterviewData) {
+      setMessages([{ isUser: false, data: initialInterviewData }]);
+    }
+  }, [initialInterviewData]);
 
   const sendMessage = async () => {
     if (input.trim() !== '') {
       const userMessage = input.trim();
       setInput('');
-      
       setMessages(prev => [...prev, { text: userMessage, isUser: true }, { text: '...', isUser: false }]);
       setIsLoading(true);
 
@@ -94,13 +136,16 @@ const Chat = () => {
 
   return (
     <div className="h-screen flex-1 flex flex-col items-center min-h-0">
-      <div className='flex-1 w-full mb-4 p-4 bg-white rounded overflow-y-auto'>
-        {messages.map((msg, i) => (
+      <div className="flex-1 w-full mb-4 p-4 bg-white rounded overflow-y-auto">
+      {messages.map((msg, i) => (
           <div
             key={i}
-            className={`flex ${msg.isUser ? 'justify-end' : 'justify-start'} px-40 mb-4`}>
-            <div className={`max-w-[60%] rounded-lg p-3 mt-2 ${msg.isUser ? 'bg-gray-100' : 'bg-blue-50'}`}>
-              {msg.text}
+            className={`flex ${msg.isUser ? 'justify-end' : 'justify-start'} px-40 mb-4`}
+          >
+            <div
+              className={`max-w-[60%] rounded-lg p-3 mt-2 ${msg.isUser ? 'bg-gray-100' : 'bg-blue-50'} whitespace-pre-wrap`}
+            >
+              {msg.data ? <InterviewSummary data={msg.data} /> : msg.text}
             </div>
           </div>
         ))}
@@ -121,6 +166,6 @@ const Chat = () => {
       </div>
     </div>
   );
-}
+};
 
 export default App;
