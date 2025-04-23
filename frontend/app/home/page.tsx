@@ -6,6 +6,7 @@ import GeometricBackground from '../../components/background'
 export default function HomePage() {
     return (
         <div className="min-h-screen flex flex-col items-center">
+            <GeometricBackground />
             <h1 className="text-8xl font-bold bg-gradient-to-r from-blue-400 via-violet-500 to-purple-600 bg-clip-text text-transparent font-serif"
             style={{ textShadow: '10px 10px 10px rgba(0, 0, 0, 0.25)' }}>
                 EchoAce AI
