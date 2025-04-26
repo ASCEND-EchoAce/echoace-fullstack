@@ -6,6 +6,7 @@ import { User } from '@supabase/supabase-js';
 import { Button } from './ui/button';
 import { usePathname } from 'next/navigation';
 import { UserProfileDropdown } from './UserProfileDropdown';
+import GeometricBackground from './background';
 
 type NavbarProps = {
   user: User | null;
@@ -28,11 +29,7 @@ export default function Navbar({ user }: NavbarProps) {
   return (
     <>
       {pathname === '/' && (
-        <img
-          src="/landing-background.png"
-          alt="landing page background"
-          className="absolute pointer-events-none z-[-10]"
-        />
+        <GeometricBackground />
       )}
       <div className="w-full py-4 px-24 flex justify-between">
         <Link href="/" className="flex gap-4 items-center">

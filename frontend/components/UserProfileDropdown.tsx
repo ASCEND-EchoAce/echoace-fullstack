@@ -4,7 +4,7 @@ import { User } from '@supabase/supabase-js';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import { signOutAction } from '@/app/actions';
 import Link from 'next/link';
-import {LogOut, UserCog, BadgeCheck} from 'lucide-react'
+import {LogOut, UserCog, BadgeCheck, X} from 'lucide-react'
 
 
 interface UserProfileDropdownProps {
@@ -41,24 +41,10 @@ export const UserProfileDropdown = ({ user }: UserProfileDropdownProps) => {
           <DropdownMenu.Item asChild>
             <button
               type="button"
-              className="ml-auto bg-white rounded-md p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+              className="ml-auto bg-white rounded-2xl p-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-0"
             >
               <span className="sr-only">Close menu</span>
-              <svg
-                className="h-6 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <X className='w-6 h-6' />
             </button>
           </DropdownMenu.Item>
 
