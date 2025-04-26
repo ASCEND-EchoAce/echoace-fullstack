@@ -53,7 +53,7 @@ const App = () => {
   return (
     <div className="flex h-screen w-full">
       <div className="flex-1 flex flex-col">
-        <div className="flex justify-end py-5 px-10">
+        <div className="flex justify-end py-3 px-10">
           <UserProfileDropdown user={user} />
         </div>
         <Chat initialInterviewData={interviewData} />
@@ -136,7 +136,7 @@ const Chat = ({ initialInterviewData }: { initialInterviewData: any }) => {
 
   return (
     <div className="h-screen flex-1 flex flex-col items-center min-h-0">
-      <div className="flex-1 w-full mb-4 p-4 bg-white rounded overflow-y-auto">
+      <div className="flex-1 w-full -mb-4 -mt-2 p-4 bg-white rounded overflow-y-auto">
       {messages.map((msg, i) => (
           <div
             key={i}

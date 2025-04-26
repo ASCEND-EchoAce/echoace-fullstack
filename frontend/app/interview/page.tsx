@@ -218,7 +218,7 @@ export default function ProtectedPage() {
     content = (
       <div className="flex-1 w-full flex flex-col gap-12 items-center">
         <div className="w-full text-center">
-          <div className="bg-accent text-sm p-3 px-5 rounded-md text-foreground flex gap-3 items-center justify-center">
+          <div className="bg-accent text-sm p-3 px-5 rounded-md text-foreground flex gap-3 items-center max-w-[700px] mx-auto justify-center">
             <InfoIcon size="16" strokeWidth={2} />
             Please select a question to start your interview
           </div>
@@ -243,8 +243,8 @@ export default function ProtectedPage() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-2">{getCurrentPage()}</h1>
-      <div className="w-[700px] mx-auto mb-2">
+      <h1 className="text-3xl font-bold mb-2 max-w-[700px] mx-auto">{getCurrentPage()}</h1>
+      <div className="w-full mx-auto mb-2">
         <ProgressBar progress={getProgress()} />
       </div>
       <div>

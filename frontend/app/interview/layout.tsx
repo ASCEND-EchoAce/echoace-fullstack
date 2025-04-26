@@ -23,7 +23,7 @@ export default async function InterviewLayout({
   return (
     <main className="min-h-screen flex flex-col items-center">
       <div className="flex-1 w-full flex flex-col gap-10 items-center">
-        <div className="flex flex-col gap-5 max-w-3xl p-3 w-2xl mx-auto">
+        <div className="flex flex-col gap-5 p-3 w-full">
           {children}
         </div>
       </div>

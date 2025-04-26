@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Typewriter from '@/components/typewriter';
-import GeometricBackground from '@/components/background';
 
 export default async function Index() {
   const typewriterPhrases = [
@@ -15,7 +14,6 @@ export default async function Index() {
 
   return (
     <>
-    <GeometricBackground />
       <section id="landing hero" className="flex flex-col justify-center items-center pt-24 gap-8">
         <div className="text-center flex flex-col justify-center items-center gap-8">
           <h1 className="text-6xl max-w-6xl font-semibold">
