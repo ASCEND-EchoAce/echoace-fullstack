@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Recorder from "recorder-js";
+import { useSelf } from "@/hooks/useSelf";
+import { UserAPI } from "@/api/userAPI";
 
 export default function AudioRecorder({
   selectedQuestion,
@@ -14,6 +16,7 @@ export default function AudioRecorder({
   const [recorder, setRecorder] = useState<Recorder | null>(null);
   const [isPending, setIsPending] = useState(false);
   const [pendingText, setPendingText] = useState("");
+  const { user } = useSelf();
 
   const handleStartRecording = async () => {
     try {
@@ -30,26 +33,30 @@ export default function AudioRecorder({
   };
 
   const handleStopRecording = async () => {
-    if (recorder) {
+    if (recorder && user?.id) {
       setIsPending(true);
       setPendingText("Stopping recording...");
+
+      try {
+        // Ensure user exists in our users table
+        await UserAPI.createUser(user.email || '', user.id);
+      } catch (error) {
+        console.error("❌ Error creating user:", error);
+      }
 
       const { blob } = await recorder.stop();
       setIsRecording(false);
 
       const audioBlob = new Blob([blob], { type: "audio/wav" }); 
       const formData = new FormData();
-      formData.append("audio", audioBlob, "recording.wav"); // Set filename to .wav
+      formData.append("audio", audioBlob, "recording.wav");
       formData.append("question", selectedQuestion);
+      formData.append("user_fid", user.id);
 
       try {
-        // Ensure server is configured to accept multipart/form-data
         const response = await fetch("http://localhost:8080/process-audio", {
           method: "POST",
           body: formData,
-          headers: {
-            // No need to set Content-Type explicitly for FormData, browser handles this
-          },
         });
 
         if (!response.ok) {
@@ -65,14 +72,14 @@ export default function AudioRecorder({
         setTimeout(() => {
           setIsPending(false);
           setPendingText("");
-          onStop(jsonResponse.transcription, jsonResponse.evaluation); // Pass both transcription and evaluation to the parent
+          onStop(jsonResponse.transcription, jsonResponse.evaluation);
         }, 10);
       } catch (error) {
         console.error("❌ Error fetching server response:", error);
         setTranscription("Error: Could not process audio.");
         setIsPending(false);
         setPendingText("");
-        onStop("Error: Could not process audio.", "Error: Could not process audio."); // Pass error messages to parent
+        onStop("Error: Could not process audio.", "Error: Could not process audio.");
       }
     }
   };

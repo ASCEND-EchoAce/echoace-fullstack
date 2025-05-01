@@ -1,6 +1,7 @@
 import { Geist } from 'next/font/google';
 import './globals.css';
 import { createClient } from '@/utils/supabase/server';
+import { SelfProvider } from '@/components/SelfProvider';
 import LayoutWrapper from '@/components/layout-wrapper';
 
 const geistSans = Geist({
@@ -10,18 +11,20 @@ const geistSans = Geist({
 
 export default async function RootLayout({
   children
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   const supabase = await createClient();
-  const {
-    data: { user }
-  } = await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
 
   return (
     <html lang="en" className={geistSans.className} suppressHydrationWarning>
       <body>
-        <LayoutWrapper user={user}>{children}</LayoutWrapper>
+        <SelfProvider value={{ user, profile: null }}>
+          <LayoutWrapper user={user}>
+            {children}
+          </LayoutWrapper>
+        </SelfProvider>
       </body>
     </html>
   );

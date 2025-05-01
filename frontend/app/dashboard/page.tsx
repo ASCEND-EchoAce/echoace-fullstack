@@ -18,58 +18,61 @@ import {
 import { useSelf } from '@/hooks/useSelf';
 import { Terminal } from 'lucide-react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AreaChart, CartesianGrid, XAxis, Area, ResponsiveContainer } from 'recharts';
+import { User } from '@supabase/supabase-js';
+import { interviewAPI } from '@/api/interviewAPI';
 
-const chartData = [
-  { month: 'January', desktop: 18 },
-  { month: 'February', desktop: 35 },
-  { month: 'March', desktop: 27 },
-  { month: 'April', desktop: 3 },
-  { month: 'May', desktop: 29 },
-  { month: 'June', desktop: 24 },
-  { month: 'July', desktop: 16 },
-  { month: 'August', desktop: 35 },
-  { month: 'September', desktop: 27 },
-  { month: 'October', desktop: 73 },
-  { month: 'November', desktop: 29 },
-  { month: 'December', desktop: 24 }
+const months = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
 const chartConfig = {
   desktop: {
-    label: 'Desktop',
+    label: 'Interviews',
     color: 'hsl(var(--chart-3))'
   }
 } satisfies ChartConfig;
 
 export default function Dashboard() {
+  const { user } = useSelf();
   const [interviews, setInterviews] = useState<Interview[]>([]);
-  const { user, profile } = useSelf();
+  const [chartData, setChartData] = useState<{ month: string; desktop: number }[]>([]);
+  
+  useEffect(() => {
+    if (user?.id) {
+      interviewAPI.getInterview(user.id).then((interviews) => {
+        setInterviews(interviews);
+        
+        // Initialize chart data with all months set to 0
+        const initialChartData = months.map(month => ({ month, desktop: 0 }));
+        
+        // Count interviews by month
+        interviews.forEach(interview => {
+          const date = new Date(interview.created_at);
+          const monthIndex = date.getMonth();
+          initialChartData[monthIndex].desktop += 1;
+        });
+        
+        setChartData(initialChartData);
+      });
+    }
+  }, [user?.id]);
+  
+  console.log('Dashboard - Context values:', { user });
   
   return (
     <div className="flex flex-col gap-8">
       <h1 className="text-3xl font-bold">
-        Welcome{profile ? `, ${profile.first_name} ${profile.last_name}` : ''}!
+        {user ? `Welcome, ${user.email}` : 'You are not logged in'}
       </h1>
-      {user && !user.completed_onboarding && (
-        <Alert>
-          <Terminal className="h-4 w-4" />
-          <AlertTitle className="mb-4">Heads up!</AlertTitle>
-          <AlertDescription className="flex flex-col gap-2">
-            <p>Before you start interviewing, make sure to fill out the onboarding form.</p>
-            <Link href="/profile">
-              <Button>Fill out the form</Button>
-            </Link>
-          </AlertDescription>
-        </Alert>
-      )}
       <div className="flex flex-row gap-8">
         {/* <Calendar mode="single" selected={date} onSelect={setDate} className="rounded-md border" /> */}
         <Card className="w-1/4 flex items-center justify-center">
           <CardContent className="flex flex-col text-center gap-4">
             <p>You've done</p>
-            <p className="text-2xl font-bold">3</p>
+            <p className="text-2xl font-bold">{interviews.length}</p>
             <p>interviews this past year.</p>
           </CardContent>
         </Card>

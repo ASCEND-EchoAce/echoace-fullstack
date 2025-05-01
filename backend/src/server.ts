@@ -184,6 +184,7 @@ app.use('/api/user-profiles', userProfileRouter);
 // Get the most recent interview for a user
 app.get('/api/recent-interview/:user_fid', async (req: Request, res: Response) => {
   const { user_fid } = req.params;
+  console.log('user_fid', req.params.user_fid);
   
   try {
     // Call the getInterviewByUserFid function

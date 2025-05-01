@@ -1,8 +1,8 @@
 import APIWrapper from './APIWrapper';
 
 export class UserProfileAPI {
-  public static async getUserProfile(userId: string): Promise<UserProfile> {
-    const response = await APIWrapper.get(`/user-profiles/${userId}`);
+  public static async getUserProfile(user_fid: string): Promise<UserProfile> {
+    const response = await APIWrapper.get(`/user-profiles/${user_fid}`);
     return response;
   }
 

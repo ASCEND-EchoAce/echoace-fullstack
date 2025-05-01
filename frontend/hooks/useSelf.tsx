@@ -1,18 +1,21 @@
-import { createContext, useContext } from 'react';
+'use client';
 
-export type UserData = {
-  user: DBUser | null;
-  profile: UserProfile | null;
+import { createContext, useContext } from 'react';
+import { User } from '@supabase/supabase-js';
+
+export type SelfContextType = {
+  user: User | null;
+  profile: any | null;
 };
 
-export const SelfContext = createContext<UserData | undefined>(undefined);
+export const SelfContext = createContext<SelfContextType | undefined>(undefined);
 
-export const useSelf = (): UserData => {
-  const self = useContext(SelfContext);
-
-  if (self === undefined) {
+export function useSelf() {
+  const context = useContext(SelfContext);
+  
+  if (context === undefined) {
     throw new Error('useSelf must be used within a SelfProvider');
   }
   
-  return { user: self.user, profile: self.profile };
-};
+  return context;
+}
