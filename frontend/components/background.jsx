@@ -17,12 +17,12 @@ class Particle {
     this.x = Math.random() * canvas.width;
     this.y = Math.random() * canvas.height;
     this.size = Math.random() * 2 + 1;
-    // this.speedX = Math.random() * 1 - 0.5;
+    this.speedX = (0.5 - Math.random()) * 4;
     // this.speedY = Math.random() * 1 - 0.5;
-    this.speedX = 0;
-    this.speedY = Math.random() * 5 - 0.5;
+    // this.speedX = 0;
+    this.speedY = Math.max(0.15, Math.random()) * 5 - 0.5;
     const professionalColors = [
-        'rgba(41, 71, 98, 0.4)',   
+        'rgba(41, 71, 98, 0.65)',   
         'rgba(70, 130, 180, 0.3)',  
         'rgba(112, 128, 144, 0.3)',  
         'rgba(176, 196, 222, 0.2)'  
@@ -57,7 +57,7 @@ class Particle {
 }
 
 const particles = [];
-const particleCount = 30;
+const particleCount = 80;
 
 for (let i = 0; i < particleCount; i++) {
   particles.push(new Particle());
