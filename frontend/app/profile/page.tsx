@@ -89,6 +89,10 @@ export default function profilePage() {
                 onChange={(e) => setIndustry((e.target.value as string).trim())}
               />
             </div>
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <Label htmlFor="resume">Resume</Label>
+              <Input id="resume" type="file" />
+            </div>
           </div>
           {message !== undefined &&
             ('error' in message ? (
@@ -126,7 +130,7 @@ export default function profilePage() {
           <div className="flex flex-col gap-4">
             <Label>Membership</Label>
             <Link href="/membership">
-              <Button variant="outline" className="w-min" >
+              <Button variant="outline" className="w-min">
                 Manage
               </Button>
             </Link>

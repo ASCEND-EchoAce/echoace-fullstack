@@ -1,10 +1,9 @@
 'use client';
 
 import { createContext, useContext } from 'react';
-import { User } from '@supabase/supabase-js';
 
 export type SelfContextType = {
-  user: User | null;
+  user: DBUser | null;
   profile: any | null;
 };
 
