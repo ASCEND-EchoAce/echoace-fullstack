@@ -37,11 +37,11 @@ export default function HistoryPage() {
               <CardTitle>{interview.question}</CardTitle>
               <CardDescription>{date.toDateString()}</CardDescription>
             </CardHeader>
-            <CardContent>
-              <p>
+            <CardContent className="flex flex-col gap-2">
+              <p className="line-clamp-2">
                 <strong>Transcription: </strong> {interview.transcript}
               </p>
-              <p>
+              <p className="line-clamp-2">
                 <strong>Evaluation: </strong> {interview.evaluation}
               </p>
             </CardContent>

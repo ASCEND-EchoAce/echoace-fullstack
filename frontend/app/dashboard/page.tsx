@@ -48,7 +48,11 @@ export default function Dashboard() {
   useEffect(() => {
     if (user?.id) {
       interviewAPI.getInterview(user.id).then((interviews) => {
-        setInterviews(interviews);
+        setInterviews(
+          interviews.sort(
+            (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          )
+        );
 
         // Initialize chart data with all months set to 0
         const initialChartData = months.map((month) => ({ month, desktop: 0 }));
@@ -134,11 +138,28 @@ export default function Dashboard() {
         <Calendar mode="multiple" selected={dates} className="rounded-md border" />
       </div>
       <div className="flex flex-row gap-8">
-        <Card className="w-1/4 flex items-center justify-center">
-          <CardContent className="flex flex-col text-center gap-4">
-            <p>You've done</p>
-            <p className="text-2xl font-bold">{interviews.length}</p>
-            <p>interviews this past year.</p>
+        <Card className="flex flex-col">
+          <CardHeader>
+            <CardTitle>Past Interviews</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-4">
+            {interviews.map((interview, i) => {
+              if (i > 2) return <></>;
+              return (
+                <div
+                  className={`flex flex-row gap-4 p-4 ${i % 2 === 0 ? 'bg-stone-50' : ''}`}
+                  key={interview.id}
+                >
+                  <div className="w-10/12 gap-2 flex flex-col">
+                    <p className="text-lg font-semibold">{interview.question}</p>
+                    <p className="line-clamp-2">{interview.evaluation}</p>
+                  </div>
+                  <p className="w-2/12 text-right text-stone-400">
+                    {new Date(interview.created_at).toDateString()}
+                  </p>
+                </div>
+              );
+            })}
           </CardContent>
         </Card>
       </div>
