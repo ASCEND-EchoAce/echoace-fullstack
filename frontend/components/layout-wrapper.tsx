@@ -9,7 +9,7 @@ import AppSidebar from './app-sidebar';
 import { useEffect, useState } from 'react';
 import { UserProfileAPI } from '@/api/userProfileAPI';
 import { UserAPI } from '@/api/userAPI';
-import { useSelf } from '@/hooks/useSelf';
+import { SelfProvider } from './SelfProvider';
 
 type LayoutWrapperProps = {
   children: React.ReactNode;
@@ -19,10 +19,16 @@ type LayoutWrapperProps = {
 export default function LayoutWrapper({ children, user }: LayoutWrapperProps) {
   const [dbUser, setDbUser] = useState<DBUser | null>(null);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-  const { user: contextUser, profile: contextProfile } = useSelf();
 
   const pathname = usePathname();
-  const authorizedPaths = ['/dashboard', '/interview', '/feedback', '/history', '/profile', '/membership'];
+  const authorizedPaths = [
+    '/dashboard',
+    '/interview',
+    '/feedback',
+    '/history',
+    '/profile',
+    '/membership'
+  ];
   const showNavbar = authorizedPaths.every((path) => !pathname.startsWith(path));
 
   useEffect(() => {
@@ -45,20 +51,22 @@ export default function LayoutWrapper({ children, user }: LayoutWrapperProps) {
 
   return (
     <SidebarProvider>
-      {!showNavbar && <AppSidebar />}
-      <main className="min-h-screen flex flex-col w-full items-center">
-        <div
-          className={`flex-1 w-full flex flex-col items-center text-black ${showNavbar ? '' : pathname === '/feedback' ? '' : 'p-8'}`}
-        >
-          {showNavbar && <Navbar user={user} />}
-          <div className="flex flex-col gap-20 w-full">{children}</div>
-          {showNavbar && (
-            <footer className="w-full flex items-center justify-center mx-auto text-center text-xs gap-2 py-16">
-              Built with <HeartIcon /> by ASCEND Product II.
-            </footer>
-          )}
-        </div>
-      </main>
+      <SelfProvider value={{ user: dbUser, profile: userProfile }}>
+        {!showNavbar && <AppSidebar />}
+        <main className="min-h-screen flex flex-col w-full items-center">
+          <div
+            className={`flex-1 w-full flex flex-col items-center text-black ${showNavbar ? '' : pathname === '/feedback' ? '' : 'p-8'}`}
+          >
+            {showNavbar && <Navbar user={user} />}
+            <div className="flex flex-col gap-20 w-full">{children}</div>
+            {showNavbar && (
+              <footer className="w-full flex items-center justify-center mx-auto text-center text-xs gap-2 py-16">
+                Built with <HeartIcon /> by ASCEND Product II.
+              </footer>
+            )}
+          </div>
+        </main>
+      </SelfProvider>
     </SidebarProvider>
   );
 }
